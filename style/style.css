@@ -1,0 +1,35 @@
+.form-container {
+    height: 100vh;
+    margin-top: -106px;
+}
+
+main {
+    min-height: 100vh;
+}
+
+.comment-date {
+    font-size: 12px;
+}
+
+.comment-moderation {
+    font-size: 12px;
+}
+
+.sidebar {
+    height: 100vh !important;
+}
+
+a.list-group-item {
+    background-color: #f8f9fa;
+    border: none;
+    font-weight: 700;
+}
+
+.list-group-item.active {
+    background-color: #f8f9fa;
+    color: #007bff;
+}
+
+.list-group-item:hover {
+    color: black;
+}
