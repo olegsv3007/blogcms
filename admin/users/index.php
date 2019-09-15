@@ -28,7 +28,7 @@ require_once APP_DIR . '/include/admin_header.php';
                 <td>Mark</td>
                 <td>Otto</td>
                 <td>@fat</td>
-                <td><a href="" class="btn btn-sm btn-dark">Редактировать</a></td>      
+                <td><a href="/admin/users/edit.php" class="btn btn-sm btn-dark">Редактировать</a></td>      
                 <td><a href="" class="btn btn-sm btn-danger">Удалить</a></td>
             </tr>
             <tr>
@@ -36,7 +36,7 @@ require_once APP_DIR . '/include/admin_header.php';
                 <td>Jacob</td>
                 <td>Thornton</td>
                 <td>@fat</td>
-                <td><a href="" class="btn btn-sm btn-dark">Редактировать</a></td>      
+                <td><a href="/admin/users/edit.php" class="btn btn-sm btn-dark">Редактировать</a></td>      
                 <td><a href="" class="btn btn-sm btn-danger">Удалить</a></td>
             </tr>
             <tr>
@@ -44,7 +44,7 @@ require_once APP_DIR . '/include/admin_header.php';
                 <td>Larry</td>
                 <td>the Bird</td>
                 <td>@twitter</td>
-                <td><a href="" class="btn btn-sm btn-dark">Редактировать</a></td>      
+                <td><a href="/admin/users/edit.php" class="btn btn-sm btn-dark">Редактировать</a></td>      
                 <td><a href="" class="btn btn-sm btn-danger">Удалить</a></td>
             </tr>
         </tbody>

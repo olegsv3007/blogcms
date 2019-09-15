@@ -7,8 +7,8 @@ require_once APP_DIR . '/include/admin_header.php';
     <select id="inputState" class="form-control float-left w-25 my-3">
         <option selected>Отображать только</option>
         <option>Все</option>
-        <option>Опубликованные</option>
-        <option>Новые</option>
+        <option>Пршедшие модерацию</option>
+        <option>Ожидают модерации</option>
     </select>
     <select id="inputState" class="form-control float-right w-25 my-3">
         <option selected>Элементов на странице</option>

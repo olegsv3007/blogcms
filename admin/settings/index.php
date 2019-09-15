@@ -9,12 +9,8 @@ require_once APP_DIR . '/include/admin_header.php';
         <div class="d-flex flex-row justify-content-around"> 
             <div class="d-flex flex-column col-12">
                 <div class="form-group mt-5">
-                    <label for="header">Заголовок:</label>
-                    <input type="text" class="form-control" name="header" id="">
-                </div>
-                <div class="form-group my-5">
-                    <label for="about-self">Текст</label>
-                    <textarea name="about-self" id="about-me" rows="5" class="form-control"></textarea>
+                    <label for="count_articles">Количество статей на главной странице:</label>
+                    <input type="number" class="form-control" name="count_articles" id="">
                 </div>
                 <button type="submit" class="btn btn-primary my-5">Сохранить изменения</button>
             </div>
