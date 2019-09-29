@@ -11,7 +11,7 @@ class Router
         $this->routes[] = new Route('GET', $path, $callback);
     }
 
-    public function post()
+    public function post($path, $callback)
     {
         $this->routes[] = new Route('POST', $path, $callback);
     }

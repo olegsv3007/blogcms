@@ -1,5 +1,4 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/bootstrap.php';
 require_once 'layout/header.php';
 ?>
 <form class="mt-5">

@@ -13,6 +13,8 @@ $router->get('/', function() {
 $router->get('about', \App\Controller::class . '@about');
 
 $router->get('registration', \App\Controllers\RegistrationController::class . "@index");
+$router->post('registration', \App\Controllers\RegistrationController::class . "@registration");
+
 $router->get('authorization', \App\Controllers\AuthorizationController::class . "@index");
 $router->get('profile', \App\Controllers\ProfileController::class . "@index");
 $router->get('logout', \App\Controllers\ProfileController::class . "@logout");

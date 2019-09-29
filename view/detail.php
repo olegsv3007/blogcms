@@ -1,6 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/bootstrap.php';
-require_once APP_DIR . '/include/header.php';
+require_once VIEW_DIR . '/layout/header.php';
 ?>
 <div class="container col-6">
     <h1 class="display-4 text-center my-4">Highlights from Git 2.22</h1> 
@@ -90,5 +89,5 @@ require_once APP_DIR . '/include/header.php';
 
 </div>
 <?php
-require_once APP_DIR . '/include/footer.php';
+require_once VIEW_DIR . '/layout/footer.php';
 ?>
