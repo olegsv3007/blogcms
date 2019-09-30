@@ -35,3 +35,4 @@ require_once 'base/header.php';
 </div>
 </header>
 <main>
+<div class="container-fluid">

@@ -1,4 +1,5 @@
 </main>
+</div>
 <footer>
     <div class="container-fluid bg-dark">
         <div class="row justify-content-center">
