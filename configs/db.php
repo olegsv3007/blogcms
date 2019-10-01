@@ -3,8 +3,8 @@
 return [
     'mysql' => [
         'host' => 'localhost',
-        'username' => 'dbuser',
-        'password' => 'dbpassword',
+        'username' => 'root',
+        'password' => '',
         'name' => 'cmsdb',
     ]
 ];

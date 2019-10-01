@@ -11,6 +11,21 @@ class Validator
         $this->result['summary'] = true;
     }
 
+    public function emailExistValidate($fieldName, $email)
+    {
+        if (\App\Model\User::where('email', $email)->count()) {
+            $this->addError($fieldName, "Пользователь с таким адресом уже зарегистрирован");
+        }
+    }
+
+    public function passwordVerifyValidate($fieldName, $password, $email)
+    {
+        $user = \App\Model\User::where('email', $email)->first();
+        if (!isset($user->password) || !password_verify($password, $user->password)) {
+            $this->addError($fieldName, "Email или пароль введены неверно");
+        }
+    }
+
     public function minLengthValidate($fieldName, $str, $minLength)
     {
         if (strlen($str) < $minLength) {

@@ -2,22 +2,28 @@
 
 error_reporting(E_ALL);
 ini_set('display_errors',true);
+session_start();
 
 require_once 'bootstrap.php';
 
+
+
 $router = new \App\Router();
 
-$router->get('/', function() {
-    return new \App\View('index', ['title' => 'Index Page']);
-});
+$router->get('/', \App\Controllers\HomeController::class . "@index");
+
 $router->get('about', \App\Controller::class . '@about');
 
 $router->get('registration', \App\Controllers\RegistrationController::class . "@index");
 $router->post('registration', \App\Controllers\RegistrationController::class . "@registration");
 
 $router->get('authorization', \App\Controllers\AuthorizationController::class . "@index");
+$router->post('authorization', \App\Controllers\AuthorizationController::class . "@login");
+$router->get('logout', \App\Controllers\AuthorizationController::class . "@logout");
+
 $router->get('profile', \App\Controllers\ProfileController::class . "@index");
-$router->get('logout', \App\Controllers\ProfileController::class . "@logout");
+
+
 $router->get('admin', \App\Controllers\Admin\ArticleController::class . "@index");
 
 $router->get('admin/articles', \App\Controllers\Admin\ArticleController::class . "@index");

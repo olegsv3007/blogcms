@@ -10,18 +10,21 @@ require_once VIEW_DIR . '/layout/base/header.php';
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link text-light" href="/registration">Регистрация</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link text-light" href="/authorization">Вход</a>
-            </li>
+        <?php if (isset($_SESSION['email'])):?>
             <li class="nav-item">
                 <a class="nav-link text-light" href="/profile">Профиль</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link text-light" href="/logout">Выход</a>
             </li>
+        <?php else:?>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="/registration">Регистрация</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link text-light" href="/authorization">Вход</a>
+            </li>
+        <?endif;?>
         </ul>
     </div>
     </nav>

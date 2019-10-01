@@ -2,6 +2,8 @@
 
 namespace App\Controllers;
 
+use App\Helpers\SessionManager;
+
 class RegistrationController
 {
     public static function index($user = null, $validationInfo = null)
@@ -15,11 +17,17 @@ class RegistrationController
     {
         $user['name'] = $_POST['name'];
         $user['email'] = $_POST['email'];
+        $user['password'] = $_POST['password'];
 
         $validationInfo = self::validateRegistrationForm();
         if (!$validationInfo['summary']) {
             return self::index($user, $validationInfo);
         }
+        self::createUser($user);
+
+        SessionManager::sessionStart($user['email']);
+        
+        return \App\Controllers\HomeController::index();
     }
 
     private static function validateRegistrationForm()
@@ -29,6 +37,7 @@ class RegistrationController
         $formValidator->minLengthValidate('name', $_POST['name'], 5);
         $formValidator->requiredValidate('name', $_POST['name']);
 
+        $formValidator->emailExistValidate('email', $_POST['email']);
         $formValidator->pregValidate('email', $_POST['email'], '/@/');
         $formValidator->requiredValidate('email', $_POST['email']);
 
@@ -44,8 +53,13 @@ class RegistrationController
         return $formValidator->getResultValidate();
     }
 
-    private function createUser()
+    private static function createUser($userData)
     {
+        $user = new \App\Model\User;
+        $user->name = $userData['name'];
+        $user->password = password_hash($userData['password'], PASSWORD_DEFAULT);
+        $user->email = $userData['email'];
 
+        $user->save();
     }
 }

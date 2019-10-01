@@ -33,13 +33,13 @@ class Application
     private function initialize()
     {
         $capsule = new Capsule;
-
+        $config = \App\Config::getInstance();
         $capsule->addConnection([
             'driver' => 'mysql',
-            'host' => 'localhost',
-            'database' => 'cmsdb',
-            'username' => 'root',
-            'password' => '',
+            'host' => $config->get("db.mysql.host"),
+            'database' => $config->get("db.mysql.name"),
+            'username' => $config->get("db.mysql.username"),
+            'password' => $config->get("db.mysql.password"),
             'charset' => 'utf8',
             'collation' => 'utf8_unicode_ci',
             'prefix' => '',
