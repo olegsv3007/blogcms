@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Сен 29 2019 г., 22:11
+-- Время создания: Окт 01 2019 г., 16:51
 -- Версия сервера: 5.7.25
 -- Версия PHP: 7.2.10
 
@@ -51,13 +51,6 @@ CREATE TABLE `role_user` (
   `role_id` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Дамп данных таблицы `role_user`
---
-
-INSERT INTO `role_user` (`user_id`, `role_id`) VALUES
-(1, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -66,18 +59,23 @@ INSERT INTO `role_user` (`user_id`, `role_id`) VALUES
 
 CREATE TABLE `users` (
   `id` int(11) NOT NULL,
+  `avatar` varchar(255) DEFAULT NULL,
   `name` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
-  `isSubscribe` tinyint(4) NOT NULL DEFAULT '0'
+  `about_self` text,
+  `isSubscribe` tinyint(4) NOT NULL DEFAULT '0',
+  `updated_at` date DEFAULT NULL,
+  `created_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `password`, `isSubscribe`) VALUES
-(1, 'Иванов Иван Иванович', 'iii@example.com', 'pwd', 1);
+INSERT INTO `users` (`id`, `avatar`, `name`, `email`, `password`, `about_self`, `isSubscribe`, `updated_at`, `created_at`) VALUES
+(11, NULL, 'Петров П', 'petrov@example.com', '$2y$10$ghm5NTxG8WDezTLHr5GVu.U2rSdF1jiJSJQk1K.XSlF4AKtaLLWOS', NULL, 0, '2019-10-01', '2019-10-01'),
+(12, NULL, 'Петров П', 'petrov3@example.com', '$2y$10$nPliWxnWrDtC4QjyISVS7uWy0rWP00jE8Z.Qi/50SKOoZQELnGrIq', NULL, 0, '2019-10-01', '2019-10-01');
 
 --
 -- Индексы сохранённых таблиц
@@ -100,7 +98,8 @@ ALTER TABLE `role_user`
 -- Индексы таблицы `users`
 --
 ALTER TABLE `users`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `email` (`email`);
 
 --
 -- AUTO_INCREMENT для сохранённых таблиц
@@ -116,7 +115,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц
