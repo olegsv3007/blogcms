@@ -6,6 +6,12 @@ class ProfileController
 {
     public static function index()
     {
-        return new \App\View("profile");
+        $profile = self::getProfile($_SESSION['email']);
+        return new \App\View("profile", $profile);
+    }
+
+    private static function getProfile($email)
+    {
+        return \App\Model\User::where('email', $email)->first();
     }
 }
