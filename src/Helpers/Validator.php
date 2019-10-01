@@ -8,7 +8,7 @@ class Validator
 
     public function __construct()
     {
-        $this->result['summary'] = true;
+
     }
 
     public function emailExistValidate($fieldName, $email)
@@ -75,6 +75,5 @@ class Validator
     private function addError($fieldName, $message)
     {
         $this->result['errors'][$fieldName] = $message;
-        $this->result['summary'] = false;
     }
 }

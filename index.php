@@ -22,6 +22,7 @@ $router->post('authorization', \App\Controllers\AuthorizationController::class .
 $router->get('logout', \App\Controllers\AuthorizationController::class . "@logout");
 
 $router->get('profile', \App\Controllers\ProfileController::class . "@index");
+$router->post('update-profile', \App\Controllers\ProfileController::class . "@updateProfile");
 
 
 $router->get('admin', \App\Controllers\Admin\ArticleController::class . "@index");

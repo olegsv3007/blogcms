@@ -9,7 +9,7 @@ class AuthorizationController
     public static function index($user = null, $validationInfo = null)
     {
         $data['user'] = $user;
-        $data['validation-info'] = $validationInfo;
+        $data['validation_info'] = $validationInfo;
         return new \App\View("authorization", $data);
     }
 
@@ -20,7 +20,7 @@ class AuthorizationController
 
         $resultValidate = self::validateAuthorizationForm();
     
-        if (!$resultValidate['summary']) {
+        if (isset($resultValidate['errors'])) {
             return self::index($user, $resultValidate);
         }
 

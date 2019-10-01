@@ -5,6 +5,8 @@ define('VIEW_DIR', $_SERVER['DOCUMENT_ROOT'] . '/view');
 define('CONFIG_DIR', $_SERVER['DOCUMENT_ROOT']. '/configs');
 define('MODEL_DIR', $_SERVER['DOCUMENT_ROOT'] . '/src/Model');
 define('ARTICLE_IMAGE_DIR', '/images/articles/');
+define('AVATARS_DIR', '/images/avatars/');
+
 
 require_once 'helpers.php';
 require_once __DIR__ . '/vendor/autoload.php';

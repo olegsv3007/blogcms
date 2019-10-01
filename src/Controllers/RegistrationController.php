@@ -9,7 +9,7 @@ class RegistrationController
     public static function index($user = null, $validationInfo = null)
     {
         $data['user'] = $user;
-        $data['validation-info'] = $validationInfo;
+        $data['validation_info'] = $validationInfo;
         return new \App\View("registration", $data);
     }
 
@@ -20,7 +20,7 @@ class RegistrationController
         $user['password'] = $_POST['password'];
 
         $validationInfo = self::validateRegistrationForm();
-        if (!$validationInfo['summary']) {
+        if (isset($validationInfo['errors'])) {
             return self::index($user, $validationInfo);
         }
         self::createUser($user);
