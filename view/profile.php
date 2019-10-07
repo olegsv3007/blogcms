@@ -3,7 +3,7 @@ require_once 'layout/header.php';
 ?>
 <div class="container">
 <h1 class="display-4 text-center my-4">Редактирование профиля</h1>
-    <form class="bg-light my-5 p-5" method="post" action="update-profile">
+    <form class="bg-light my-5 p-5" method="post" action="update-profile" enctype="multipart/form-data">
         <div class="d-flex flex-row justify-content-around">
             <div class="d-flex flex-column align-items-center mt-5">
                 <?php if (isset($this->data['profile']->avatar)):?>
@@ -11,25 +11,23 @@ require_once 'layout/header.php';
                 <?php endif;?>
                 <div class="form-group mt-5">
                     <label for="user-photo">Фото:</label>
-                    <input type="file" class="form-control-file" id="user-photo">
+                    <input type="file" class="form-control-file" id="avatar" name="avatar">
                 </div>
             </div>
             <div class="d-flex flex-column col-6">
                 <div class="form-group mt-5">
                     <label for="name">Имя:</label>
-                    <input type="text" class="form-control" name="name" id="name" value="<?=$this->data['profile']->name ?? ''?>">
+                    <input type="text" class="form-control <?=isset($this->data['validation_info']['errors']['name']) ? 'is-invalid' : 'is-valid' ?>" name="name" id="name" value="<?=$this->data['profile']->name ?? ''?>">
+                    <? if (isset($this->data['validation_info']['errors']['name'])):?>
+                        <div class="invalid-feedback"><?=$this->data['validation_info']['errors']['name']?></div>
+                    <?endif;?>
                 </div>
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" class="form-control" name="email" id="email" value="<?=$this->data['profile']->email ?? ''?>">
-                </div>
-                <div class="form-group">
-                    <label for="password">Пароль:</label>
-                    <input type="password" class="form-control" name="password" id="password">
-                </div>
-                <div class="form-group">
-                    <label for="confirm-password">Подтверждение пароля:</label>
-                    <input type="confirm-password" class="form-control" name="confirm-password" id="confirm-password">
+                    <input type="email" class="form-control <?=isset($this->data['validation_info']['errors']['email']) ? 'is-invalid' : 'is-valid' ?>" name="email" id="email" value="<?=$this->data['profile']->email ?? ''?>">
+                    <? if (isset($this->data['validation_info']['errors']['email'])):?>
+                        <div class="invalid-feedback"><?=$this->data['validation_info']['errors']['email']?></div>
+                    <?endif;?>
                 </div>
                 <div class="form-group my-5">
                     <label for="about-self">О себе:</label>

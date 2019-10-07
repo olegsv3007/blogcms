@@ -14,6 +14,9 @@ class Validator
     public function emailExistValidate($fieldName, $email)
     {
         if (\App\Model\User::where('email', $email)->count()) {
+            if (isset($_SESSION['email']) && $_SESSION['email'] == $email) {
+                return;
+            }
             $this->addError($fieldName, "Пользователь с таким адресом уже зарегистрирован");
         }
     }

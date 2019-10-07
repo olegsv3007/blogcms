@@ -18,7 +18,18 @@ class ProfileController
             return self::index($validationInfo);
         }
         
+        self::updateProfileDb();
+
         return self::index();
+    }
+
+    private static function updateProfileDb()
+    {
+        var_dump($_FILES['avatar']);
+        if (isset($_FILES['avatar'])) {
+            $name = basename($_FILES['avatar']['name']);
+            move_uploaded_file($_FILES['avatar']['tmp_name'], APP_DIR . AVATARS_DIR . $name);
+        }
     }
 
     private static function validateProfileForm()
@@ -31,13 +42,6 @@ class ProfileController
         $formValidator->emailExistValidate('email', $_POST['email']);
         $formValidator->pregValidate('email', $_POST['email'], '/@/');
         $formValidator->requiredValidate('email', $_POST['email']);
-
-        $formValidator->minLengthValidate('password', $_POST['password'], 6);
-        $formValidator->maxLengthValidate('password', $_POST['password'], 12);
-        $formValidator->requiredValidate('password', $_POST['password']);
-
-        $formValidator->confirmPasswordValidate('confirm-password', $_POST['password'], $_POST['confirm-password']);
-        $formValidator->requiredValidate('confirm-password', $_POST['confirm-password']);
 
         return $formValidator->getResultValidate();
     }
