@@ -17,7 +17,7 @@ class ProfileController
         if (isset($validationInfo['errors'])) {
             return self::index($validationInfo);
         }
-        
+
         self::updateProfileDb();
 
         return self::index();
@@ -25,10 +25,22 @@ class ProfileController
 
     private static function updateProfileDb()
     {
-        var_dump($_FILES['avatar']);
-        if (isset($_FILES['avatar'])) {
-            $name = basename($_FILES['avatar']['name']);
-            move_uploaded_file($_FILES['avatar']['tmp_name'], APP_DIR . AVATARS_DIR . $name);
+        $user = \App\Model\User::find($_POST['user_id']);
+
+        if ($_FILES['avatar']['name']) {
+            $explodeName = explode('.', $_FILES['avatar']['name']);
+            $fileName = uniqid() . "." . end($explodeName);
+            move_uploaded_file($_FILES['avatar']['tmp_name'], APP_DIR . AVATARS_DIR . $fileName);
+            $user->avatar = $fileName;
+        }
+
+        $user->name = $_POST['name'];
+        $user->email = $_POST['email'];
+        $user->is_subscribe = $_POST['subscribe'] ? 1 : 0;
+        $user->about_self = $_POST['about-self'];
+
+        if ($user->save()) {
+            $_SESSION['email'] = $_POST['email'];
         }
     }
 
@@ -42,6 +54,11 @@ class ProfileController
         $formValidator->emailExistValidate('email', $_POST['email']);
         $formValidator->pregValidate('email', $_POST['email'], '/@/');
         $formValidator->requiredValidate('email', $_POST['email']);
+
+        if ($_FILES['avatar']['name']) {
+            $mimeTypes = ["image/jpeg", "image/png"];
+            $formValidator->validateFile("avatar", $_FILES['avatar'], $mimeTypes);
+        }
 
         return $formValidator->getResultValidate();
     }

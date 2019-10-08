@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Окт 01 2019 г., 16:51
+-- Время создания: Окт 08 2019 г., 17:31
 -- Версия сервера: 5.7.25
 -- Версия PHP: 7.2.10
 
@@ -64,7 +64,7 @@ CREATE TABLE `users` (
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `about_self` text,
-  `isSubscribe` tinyint(4) NOT NULL DEFAULT '0',
+  `is_subscribe` tinyint(4) NOT NULL DEFAULT '0',
   `updated_at` date DEFAULT NULL,
   `created_at` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -73,8 +73,8 @@ CREATE TABLE `users` (
 -- Дамп данных таблицы `users`
 --
 
-INSERT INTO `users` (`id`, `avatar`, `name`, `email`, `password`, `about_self`, `isSubscribe`, `updated_at`, `created_at`) VALUES
-(11, NULL, 'Петров П', 'petrov@example.com', '$2y$10$ghm5NTxG8WDezTLHr5GVu.U2rSdF1jiJSJQk1K.XSlF4AKtaLLWOS', NULL, 0, '2019-10-01', '2019-10-01'),
+INSERT INTO `users` (`id`, `avatar`, `name`, `email`, `password`, `about_self`, `is_subscribe`, `updated_at`, `created_at`) VALUES
+(11, '5d9c8c5dea92c.jpg', 'Петров Петр', 'petrov@example.com', '$2y$10$ghm5NTxG8WDezTLHr5GVu.U2rSdF1jiJSJQk1K.XSlF4AKtaLLWOS', 'Я Петька!\r\n', 1, '2019-10-08', '2019-10-01'),
 (12, NULL, 'Петров П', 'petrov3@example.com', '$2y$10$nPliWxnWrDtC4QjyISVS7uWy0rWP00jE8Z.Qi/50SKOoZQELnGrIq', NULL, 0, '2019-10-01', '2019-10-01');
 
 --

@@ -6,11 +6,6 @@ class Validator
 {
     private $result = [];
 
-    public function __construct()
-    {
-
-    }
-
     public function emailExistValidate($fieldName, $email)
     {
         if (\App\Model\User::where('email', $email)->count()) {
@@ -71,8 +66,21 @@ class Validator
         }
     }
 
-    public function getResultValidate() {
+    public function getResultValidate() 
+    {
         return $this->result;
+    }
+
+    public function validateFile($fieldName, $file, $mimeTypes, $maxSize = 2 * 1024 * 1024)
+    {
+        
+        if ($file['size'] > $maxSize) {
+            $this->addError($fieldName, "Размер файла не должен превышать $maxSize байт");
+        }
+        
+        if(! is_numeric(array_search($file['type'], $mimeTypes))) {
+            $this->addError($fieldName, "Недопустимый формат файла");
+        }
     }
 
     private function addError($fieldName, $message)

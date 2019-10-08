@@ -11,10 +11,14 @@ require_once 'layout/header.php';
                 <?php endif;?>
                 <div class="form-group mt-5">
                     <label for="user-photo">Фото:</label>
-                    <input type="file" class="form-control-file" id="avatar" name="avatar">
+                    <input type="file" class="form-control-file <?=isset($this->data['validation_info']['errors']['avatar']) ? 'is-invalid' : 'is-valid' ?>" id="avatar" name="avatar">
+                    <? if (isset($this->data['validation_info']['errors']['avatar'])):?>
+                        <div class="invalid-feedback"><?=$this->data['validation_info']['errors']['avatar']?></div>
+                    <?endif;?>
                 </div>
             </div>
             <div class="d-flex flex-column col-6">
+                <input type="hidden" name="user_id" value="<?=$this->data['profile']->id?>">
                 <div class="form-group mt-5">
                     <label for="name">Имя:</label>
                     <input type="text" class="form-control <?=isset($this->data['validation_info']['errors']['name']) ? 'is-invalid' : 'is-valid' ?>" name="name" id="name" value="<?=$this->data['profile']->name ?? ''?>">
