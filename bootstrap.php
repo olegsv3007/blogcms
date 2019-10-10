@@ -6,6 +6,7 @@ define('CONFIG_DIR', $_SERVER['DOCUMENT_ROOT']. '/configs');
 define('MODEL_DIR', $_SERVER['DOCUMENT_ROOT'] . '/src/Model');
 define('ARTICLE_IMAGE_DIR', '/images/articles/');
 define('AVATARS_DIR', '/images/avatars/');
+define('TEMPLATES_DIR', APP_DIR . '/view/templates/');
 
 
 require_once 'helpers.php';

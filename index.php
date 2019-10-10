@@ -35,6 +35,7 @@ $router->get('admin/articles/edit', \App\Controllers\Admin\ArticleController::cl
 $router->get('admin/users', \App\Controllers\Admin\UserController::class . "@index");
 $router->get('admin/users/add', \App\Controllers\Admin\UserController::class . "@add");
 $router->get('admin/users/edit', \App\Controllers\Admin\UserController::class . "@edit");
+$router->post('admin/users/addUser', \App\Controllers\Admin\UserController::class . "@addUser");
 
 $router->get('admin/statics', \App\Controllers\Admin\StaticController::class . "@index");
 $router->get('admin/statics/add', \App\Controllers\Admin\StaticController::class . "@add");

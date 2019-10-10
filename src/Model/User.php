@@ -9,6 +9,6 @@ class User extends \Illuminate\Database\Eloquent\Model
 
     public function roles()
     {
-        return $this->belongsToMany('App\Model\Role');
+        return $this->belongsToMany('App\Model\Role', 'user_role');
     }
 }
