@@ -36,13 +36,6 @@ require_once VIEW_DIR . '/layout/admin_header.php';
                     <div class="invalid-feedback"><?=$this->data['validation_info']['errors']['password']?></div>
                     <?endif;?>
                 </div>
-                <div class="form-group">
-                    <label for="confirm-password">Подтверждение пароля:</label>
-                    <input type="confirm-password" class="form-control <?=isset($this->data['validation_info']) ? (isset($this->data['validation_info']['errors']['confirm-password']) ? 'is-invalid' : 'is-valid') : ''?>" name="confirm-password" id="">
-                    <? if (isset($this->data['validation_info']['errors']['confirm-password'])):?>
-                    <div class="invalid-feedback"><?=$this->data['validation_info']['errors']['confirm-password']?></div>
-                    <?endif;?>
-                </div>
                 <div class="form-group my-5">
                     <label for="about-self">О себе:</label>
                     <textarea name="about-self" id="about-me" rows="5" class="form-control"><?=$this->data['user']['about-self']?></textarea>

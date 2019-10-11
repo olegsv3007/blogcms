@@ -4,6 +4,7 @@ require_once 'layout/header.php';
 <div class="container">
 <h1 class="display-4 text-center my-4">Редактирование профиля</h1>
     <form class="bg-light my-5 p-5" method="post" action="update-profile" enctype="multipart/form-data">
+        <input type="hidden" name="id" value="<?=\App\Model\User::where('email', $_SESSION['email'])->first()->id;?>">
         <div class="d-flex flex-row justify-content-around">
             <div class="d-flex flex-column align-items-center mt-5">
                 <?php if (isset($this->data['profile']->avatar)):?>

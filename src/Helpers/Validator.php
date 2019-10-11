@@ -6,12 +6,13 @@ class Validator
 {
     private $result = [];
 
-    public function emailExistValidate($fieldName, $email)
+    public function emailExistValidate($fieldName, $email, $userId = 0)
     {
+        if ($userId > 0 && \App\Model\User::find($userId)->email == $email) {
+            return;
+        }
+        
         if (\App\Model\User::where('email', $email)->count()) {
-            if (isset($_SESSION['email']) && $_SESSION['email'] == $email) {
-                return;
-            }
             $this->addError($fieldName, "Пользователь с таким адресом уже зарегистрирован");
         }
     }
@@ -26,7 +27,7 @@ class Validator
 
     public function minLengthValidate($fieldName, $str, $minLength)
     {
-        if (strlen($str) < $minLength) {
+        if (strlen($str) != 0 && strlen($str) < $minLength) {
             $this->addError($fieldName, "Поле должно содержать не менее $minLength символов");
         }
     }

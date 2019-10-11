@@ -6,8 +6,6 @@ session_start();
 
 require_once 'bootstrap.php';
 
-
-
 $router = new \App\Router();
 
 $router->get('/', \App\Controllers\HomeController::class . "@index");
@@ -34,8 +32,11 @@ $router->get('admin/articles/edit', \App\Controllers\Admin\ArticleController::cl
 
 $router->get('admin/users', \App\Controllers\Admin\UserController::class . "@index");
 $router->get('admin/users/add', \App\Controllers\Admin\UserController::class . "@add");
-$router->get('admin/users/edit', \App\Controllers\Admin\UserController::class . "@edit");
+$router->get('admin/users/edit/*', function($userId) {
+    return call_user_func_array("\App\Controllers\Admin\UserController::edit", [\App\Model\User::find($userId)]);
+});
 $router->post('admin/users/addUser', \App\Controllers\Admin\UserController::class . "@addUser");
+$router->post('admin/users/saveUser', \App\Controllers\Admin\UserController::class . "@saveUser");
 
 $router->get('admin/statics', \App\Controllers\Admin\StaticController::class . "@index");
 $router->get('admin/statics/add', \App\Controllers\Admin\StaticController::class . "@add");

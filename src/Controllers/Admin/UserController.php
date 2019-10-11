@@ -20,7 +20,7 @@ class UserController
 
     public static function addUser()
     {
-        $validationInfo = self::validateAddUserForm();
+        $validationInfo = self::validateUserForm();
 
         $user['name'] = $_POST['name'];
         $user['email'] = $_POST['email'];
@@ -59,23 +59,23 @@ class UserController
         $user->save();
     }
 
-    private static function validateAddUserForm()
+    private static function validateUserForm()
     {
         $formValidator = new \App\Helpers\Validator;
 
         $formValidator->minLengthValidate('name', $_POST['name'], 5);
         $formValidator->requiredValidate('name', $_POST['name']);
 
-        $formValidator->emailExistValidate('email', $_POST['email']);
+        $formValidator->emailExistValidate('email', $_POST['email'], $_POST['id'] ?? 0);
         $formValidator->pregValidate('email', $_POST['email'], '/@/');
         $formValidator->requiredValidate('email', $_POST['email']);
 
         $formValidator->minLengthValidate('password', $_POST['password'], 6);
         $formValidator->maxLengthValidate('password', $_POST['password'], 12);
-        $formValidator->requiredValidate('password', $_POST['password']);
 
-        $formValidator->confirmPasswordValidate('confirm-password', $_POST['password'], $_POST['confirm-password']);
-        $formValidator->requiredValidate('confirm-password', $_POST['confirm-password']);
+        if (! isset($_POST['id'])) {
+            $formValidator->requiredValidate('password', $_POST['password']);    
+        }
 
         if ($_FILES['avatar']['name']) {
             $mimeTypes = ["image/jpeg", "image/png"];
@@ -85,8 +85,79 @@ class UserController
         return $formValidator->getResultValidate();
     }
 
-    public static function edit()
+
+    public static function edit($user, $validationInfo = null)
     {
-        return new \App\View('admin\users\edit');
+        if (! $user) {
+            return new \App\View('admin\404');
+        }
+
+        $roles = \App\Model\Role::all();
+
+        if(! is_array($user)) {
+            $userData['id'] = $user->id;
+            $userData['name'] = $user->name;
+            $userData['email'] = $user->email;
+            $userData['about-self'] = $user->about_self;
+            $userData['subscribe'] = $user->is_subscribe;
+            $userData['avatar'] = $user->avatar;
+            $userData['roles'] = $user->roles()->pluck('id')->toArray();
+        } else {
+            $userData = $user;
+        }
+
+        $data['user'] = $userData;
+        $data['roles'] = $roles;
+        $data['validation_info'] = $validationInfo;
+
+        return new \App\View('admin\users\edit', $data);
+    }
+
+
+    public static function saveUser() {
+        $validationInfo = self::validateUserForm();
+
+        $user['id'] = $_POST['id'];
+        $user['name'] = $_POST['name'];
+        $user['email'] = $_POST['email'];
+        $user['about-self'] = $_POST['about-self'];
+        $user['roles'] = $_POST['roles'];
+        $user['subscribe'] = isset($_POST['subscribe']) ? 1 : 0;
+        $user['avatar'] = $_FILES['avatar']['name'] != '' ? $_FILES['avatar'] : null;
+
+        if (isset($validationInfo['errors'])) {
+            return self::edit($user, $validationInfo);
+        }
+
+        self::updateUser($user);
+        return self::index();
+    }
+
+
+    private static function updateUser($userData)
+    {
+        $user = \App\Model\User::find($userData['id']);
+
+        $user->name = $userData['name'];
+        $user->email = $userData['email'];
+
+        if (isset($_POST['password']) && $_POST['password'] != '') {
+            $user->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        }
+        
+        $user->about_self = $userData['about-self'] ?? null;
+        $user->is_subscribe = $userData['subscribe'];
+
+        if ($userData['avatar']) {
+            $explodeName = explode('.', $userData['avatar']['name']);
+            $fileName = uniqid() . "." . end($explodeName);
+            move_uploaded_file($userData['avatar']['tmp_name'], APP_DIR . AVATARS_DIR . $fileName);
+            $user->avatar = $fileName;
+        }
+
+        $user->roles()->detach();
+        $user->roles()->attach($userData['roles']);
+
+        $user->save();
     }
 }

@@ -51,7 +51,7 @@ class ProfileController
         $formValidator->minLengthValidate('name', $_POST['name'], 5);
         $formValidator->requiredValidate('name', $_POST['name']);
 
-        $formValidator->emailExistValidate('email', $_POST['email']);
+        $formValidator->emailExistValidate('email', $_POST['email'], $_POST['id']);
         $formValidator->pregValidate('email', $_POST['email'], '/@/');
         $formValidator->requiredValidate('email', $_POST['email']);
 
