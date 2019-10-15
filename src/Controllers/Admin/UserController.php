@@ -160,4 +160,12 @@ class UserController
 
         $user->save();
     }
+
+    public static function removeUser() {
+        if (isset($_POST['id']) && $user = \App\Model\User::find($_POST['id'])) {
+            $user->delete();
+        }
+
+        return self::index();
+    }
 }

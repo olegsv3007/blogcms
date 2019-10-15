@@ -37,6 +37,7 @@ $router->get('admin/users/edit/*', function($userId) {
 });
 $router->post('admin/users/addUser', \App\Controllers\Admin\UserController::class . "@addUser");
 $router->post('admin/users/saveUser', \App\Controllers\Admin\UserController::class . "@saveUser");
+$router->post('admin/users/remove', \App\Controllers\Admin\UserController::class . "@removeUser");
 
 $router->get('admin/statics', \App\Controllers\Admin\StaticController::class . "@index");
 $router->get('admin/statics/add', \App\Controllers\Admin\StaticController::class . "@add");
