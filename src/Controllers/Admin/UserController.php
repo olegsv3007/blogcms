@@ -4,9 +4,13 @@ namespace App\Controllers\Admin;
 
 class UserController
 {
-    public static function index()
+    public static function index($page = 1)
     {
+        if ((int)$page == 0) {
+            $page = 1;
+        }
         $data['users'] = \App\Model\User::all();
+        $data['paginator'] = new \App\Helpers\Paginator(100, 12, $page);
         return new \App\View('admin\users\index', $data);
     }
 
