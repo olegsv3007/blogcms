@@ -29,18 +29,20 @@ $router->get('admin/articles', \App\Controllers\Admin\ArticleController::class .
 $router->get('admin/articles/add', \App\Controllers\Admin\ArticleController::class . "@add");
 $router->get('admin/articles/edit', \App\Controllers\Admin\ArticleController::class . "@edit");
 
-
 $router->get('admin/users/', \App\Controllers\Admin\UserController::class . '@index');
-$router->get('admin/users/*', function($page = 1) {
- return call_user_func_array("\App\Controllers\Admin\UserController::index", [$page]);
-});
 $router->get('admin/users/add', \App\Controllers\Admin\UserController::class . "@add");
-$router->get('admin/users/edit/*', function($userId) {
-    return call_user_func_array("\App\Controllers\Admin\UserController::edit", [\App\Model\User::find($userId)]);
-});
 $router->post('admin/users/addUser', \App\Controllers\Admin\UserController::class . "@addUser");
 $router->post('admin/users/saveUser', \App\Controllers\Admin\UserController::class . "@saveUser");
 $router->post('admin/users/remove', \App\Controllers\Admin\UserController::class . "@removeUser");
+$router->get('admin/users/*', function($page) {
+    return call_user_func_array("\App\Controllers\Admin\UserController::index", [$page]);
+});
+$router->post('admin/users/', function($page) {
+    return call_user_func_array("\App\Controllers\Admin\UserController::index", [$page]);
+});
+$router->get('admin/users/edit/*', function($userId) {
+    return call_user_func_array("\App\Controllers\Admin\UserController::edit", [\App\Model\User::find($userId)]);
+});
 
 $router->get('admin/statics', \App\Controllers\Admin\StaticController::class . "@index");
 $router->get('admin/statics/add', \App\Controllers\Admin\StaticController::class . "@add");
@@ -49,8 +51,6 @@ $router->get('admin/statics/edit', \App\Controllers\Admin\StaticController::clas
 $router->get('admin/subscriptions', \App\Controllers\Admin\SubscriptionController::class . "@index");
 
 $router->get('admin/comments', \App\Controllers\Admin\CommentController::class . "@index");
-
-
 
 $router->get('admin/settings', \App\Controllers\Admin\SettingsController::class . "@index");
 

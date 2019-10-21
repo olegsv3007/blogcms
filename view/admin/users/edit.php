@@ -11,6 +11,7 @@ require_once VIEW_DIR . '/layout/admin_header.php';
                 <?php if (isset($this->data['user']['avatar'])):?>
                 <img src="<?=AVATARS_DIR . $this->data['user']['avatar']?>" alt="" width="200">
                 <?php endif;?>
+                <br>
                 <div class="form-group">
                 <label for="user-photo">Фото:</label>
                 <input type="file" class="form-control-file <?=isset($this->data['validation_info']) ? (isset($this->data['validation_info']['errors']['avatar']) ? 'is-invalid' : 'is-valid') : ''?>" id="avatar" name="avatar">

@@ -4,12 +4,14 @@ require_once VIEW_DIR . '/layout/admin_header.php';
 <div class="col-9 mx-auto">
     <h2>Управление пользователями</h2>
     <a href="/admin/users/add" class="btn btn-primary my-3 float-left">Добавить пользователя</a>
-    <select id="qty-items-select" name="qty-items" class="form-control float-right w-25 my-3">
-        <option>20</option>
-        <option>50</option>
-        <option>100</option>
-    </select>
-    <label for="qty-items" class="d-block float-right my-4 mx-2">Элементов на странице:</label>
+    <form id="qty_items_per_page_form" action="/admin/users/" method="post">
+        <select id="qty_items" name="qty_items" class="form-control float-right w-25 my-3">
+            <option <?=$this->data['paginator']->itemsPerPage == 20 ? 'selected' : ''?>>20</option>
+            <option <?=$this->data['paginator']->itemsPerPage == 50 ? 'selected' : ''?>>50</option>
+            <option <?=$this->data['paginator']->itemsPerPage == 100 ? 'selected' : ''?>>100</option>
+        </select>
+        <label for="qty-items" class="d-block float-right my-4 mx-2">Элементов на странице:</label>
+    </form>
     <table class="table table-striped">
         <thead>
             <tr>

@@ -9,8 +9,11 @@ class UserController
         if ((int)$page == 0) {
             $page = 1;
         }
-        $data['users'] = \App\Model\User::all();
-        $data['paginator'] = new \App\Helpers\Paginator(100, 12, $page);
+        $_SESSION['qty_items'] = isset($_POST['qty_items']) ? $_POST["qty_items"] : (isset($_SESSION['qty_items']) ? $_SESSION['qty_items'] : 20);
+        $quantityItemsPerPage = $_SESSION['qty_items'];
+        $totalItems = \App\Model\User::all()->count();
+        $data['users'] = \App\Model\User::skip(($page - 1) * $quantityItemsPerPage)->take($quantityItemsPerPage)->get();
+        $data['paginator'] = new \App\Helpers\Paginator($totalItems, $quantityItemsPerPage, $page);
         return new \App\View('admin\users\index', $data);
     }
 
