@@ -7,7 +7,7 @@ require_once VIEW_DIR . '/layout/admin_header.php';
     <form action="/admin/users/addUser" class="bg-light my-5 p-5" method="post" enctype="multipart/form-data">
         <div class="d-flex flex-row justify-content-around">
             <div class="form-group">
-                <label for="user-photo">Фото:</label>
+                <label for="avatar">Фото:</label>
                 <input type="file" class="form-control-file <?=isset($this->data['validation_info']) ? (isset($this->data['validation_info']['errors']['avatar']) ? 'is-invalid' : 'is-valid') : ''?>" id="avatar" name="avatar">
                 <? if (isset($this->data['validation_info']['errors']['name'])):?>
                     <div class="invalid-feedback"><?=$this->data['validation_info']['errors']['avatar']?></div>

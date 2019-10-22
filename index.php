@@ -29,6 +29,8 @@ $router->get('admin/articles', \App\Controllers\Admin\ArticleController::class .
 $router->get('admin/articles/add', \App\Controllers\Admin\ArticleController::class . "@add");
 $router->get('admin/articles/edit', \App\Controllers\Admin\ArticleController::class . "@edit");
 
+$router->post('admin/articles/addArticle', \App\Controllers\Admin\ArticleController::class . "@addArticle");
+
 $router->get('admin/users/', \App\Controllers\Admin\UserController::class . '@index');
 $router->get('admin/users/add', \App\Controllers\Admin\UserController::class . "@add");
 $router->post('admin/users/addUser', \App\Controllers\Admin\UserController::class . "@addUser");

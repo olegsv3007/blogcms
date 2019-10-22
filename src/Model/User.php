@@ -11,4 +11,14 @@ class User extends \Illuminate\Database\Eloquent\Model
     {
         return $this->belongsToMany('App\Model\Role', 'user_role');
     }
+
+    public function articles()
+    {
+        return $this->morphMany('App\Model\Article', 'author');
+    }
+
+    public function comments()
+    {
+        return $this->morphMany('App\Model\Comment', 'author');
+    }
 }
