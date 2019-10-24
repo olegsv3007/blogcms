@@ -1,6 +1,5 @@
 <?php
 require_once VIEW_DIR . '/layout/admin_header.php';
-var_dump($_FILES['photos']);
 ?>
 <div class="col-9 mx-auto">
 <div class="container">
@@ -10,15 +9,24 @@ var_dump($_FILES['photos']);
             <div class="d-flex flex-column col-12">
                 <div class="form-group">
                     <label for="image">Изображение для анонса</label>
-                    <input type="file" class="form-control-file" name="image" id="image">
+                    <input type="file" class="form-control-file <?=isset($this->data['validation_info']) ? (isset($this->data['validation_info']['errors']['image']) ? "is-invalid" : "is-valid") : "" ?>" name="image" id="image">
+                    <? if (isset($this->data['validation_info']['errors']['image'])):?>
+                    <div class="invalid-feedback"><?=$this->data['validation_info']['errors']['image']?></div>
+                    <?endif;?>
                 </div>
                 <div class="form-group">
                     <label for="user-photo">Фотографии</label>
-                    <input type="file" class="form-control-file" name="photos[]" id="photos" multiple>
+                    <input type="file" class="form-control-file <?=isset($this->data['validation_info']) ? (isset($this->data['validation_info']['errors']['photos']) ? "is-invalid" : "is-valid") : "" ?>" name="photos[]" id="photos" multiple>
+                    <? if (isset($this->data['validation_info']['errors']['photos'])):?>
+                    <div class="invalid-feedback"><?=$this->data['validation_info']['errors']['photos']?></div>
+                    <?endif;?>
                 </div>
                 <div class="form-group mt-5">
                     <label for="header">Заголовок:</label>
-                    <input type="text" class="form-control" name="header" id="header">
+                    <input type="text" class="form-control <?=isset($this->data['validation_info']) ? (isset($this->data['validation_info']['errors']['header']) ? "is-invalid" : "is-valid") : "" ?>" name="header" id="header">
+                    <? if (isset($this->data['validation_info']['errors']['header'])):?>
+                    <div class="invalid-feedback"><?=$this->data['validation_info']['errors']['header']?></div>
+                    <?endif;?>
                 </div>
                 <div class="form-group my-5">
                     <label for="content">Текст</label>

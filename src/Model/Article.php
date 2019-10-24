@@ -5,7 +5,7 @@ namespace App\Model;
 class Article extends \Illuminate\Database\Eloquent\Model
 {
     protected $table = "articles";
-    protected $fillable = array("header", "content", "image");
+    protected $fillable = array("header", "content", "image", "author_id");
 
     public function photos()
     {
@@ -19,6 +19,6 @@ class Article extends \Illuminate\Database\Eloquent\Model
 
     public function comments()
     {
-        return $this->motrphMany('App\Model\Comment', 'article');
+        return $this->morphMany('App\Model\Comment', 'article');
     }
 }
