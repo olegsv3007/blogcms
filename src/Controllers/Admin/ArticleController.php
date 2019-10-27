@@ -4,9 +4,17 @@ namespace App\Controllers\Admin;
 
 class ArticleController
 {
-    public static function index()
+    public static function index($page = 1)
     {
-        $data['articles'] = \App\Model\Article::get();
+        if ((int)$page == 0) {
+            $page = 1;
+        }
+
+        $_SESSION['qty_items'] = isset($_POST['qty_items']) ? $_POST["qty_items"] : (isset($_SESSION['qty_items']) ? $_SESSION['qty_items'] : 20);
+        $quantityItemsPerPage = $_SESSION['qty_items'];
+        $totalItems = \App\Model\Article::all()->count();
+        $data['articles'] = \App\Model\Article::skip(($page - 1) * $quantityItemsPerPage)->take($quantityItemsPerPage)->get();
+        $data['paginator'] = new \App\Helpers\Paginator($totalItems, $quantityItemsPerPage, $page);
         return new \App\View('admin\articles\index', $data);
     }
 
@@ -37,7 +45,12 @@ class ArticleController
 
     public static function saveArticle($arrArticle)
     {
-        $article = new \App\Model\Article;
+        if (isset($arrArticle['id'])) {
+            $article = \App\Model\Article::find($arrArticle['id']);
+        } else {
+            $article = new \App\Model\Article;
+        }
+
         $article->header = $arrArticle['header'];
         $article->content = $arrArticle['content'];
         $article->author_id = getUser($_SESSION['email'])->id;
@@ -58,9 +71,37 @@ class ArticleController
         }
     }
 
-    public static function edit()
+    public static function edit($article, $validationInfo = null)
     {
-        return new \App\View('admin\articles\edit');
+        $data['article'] = $article;
+        $data['validation_info'] = $validationInfo;
+
+        return new \App\View('admin\articles\edit', $data);
+    }
+
+    public static function updateArticle() {
+        $validationInfo = self::validateArticleForm();
+        if (isset($validationInfo['errors'])) {
+            return self::edit(\App\Model\Article::find($_POST['id']), $validationInfo);
+        }
+
+        $article['id'] = $_POST['id'];
+        $article['header'] = $_POST['header'];
+        $article['content'] = $_POST['content'];
+        $article['image'] = $_FILES['image'];
+        $article['photos'] = getArrFiles($_FILES['photos']);
+
+        self::saveArticle($article);
+        return self::index();
+    }
+
+    public static function removeArticle()
+    {
+        if (isset($_POST['id']) && $article = \App\Model\Article::find($_POST['id'])) {
+            $article->delete();
+        }
+
+        return self::index();
     }
 
     private static function validateArticleForm()

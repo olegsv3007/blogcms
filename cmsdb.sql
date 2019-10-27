@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Окт 22 2019 г., 17:22
+-- Время создания: Окт 28 2019 г., 00:31
 -- Версия сервера: 5.7.25
 -- Версия PHP: 7.2.10
 
@@ -38,6 +38,27 @@ CREATE TABLE `articles` (
   `author_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Дамп данных таблицы `articles`
+--
+
+INSERT INTO `articles` (`id`, `header`, `content`, `image`, `updated_at`, `created_at`, `author_id`) VALUES
+(4, 'hgjghjg', '', NULL, '2019-10-26 21:18:22', '2019-10-26 21:18:22', 11),
+(6, 'dfgdfgdg', '', NULL, '2019-10-26 21:18:28', '2019-10-26 21:18:28', 11),
+(8, 'fghjfghf', '', NULL, '2019-10-26 21:19:40', '2019-10-26 21:19:40', 11),
+(9, 'hfghfghfhg', '', NULL, '2019-10-26 21:19:43', '2019-10-26 21:19:43', 11),
+(10, 'fghfghfghf', '', NULL, '2019-10-26 21:19:45', '2019-10-26 21:19:45', 11),
+(11, 'gfhdfhgdgdfgd', '', NULL, '2019-10-26 21:19:48', '2019-10-26 21:19:48', 11),
+(12, 'dfgdgfdgfdfgd', '', NULL, '2019-10-26 21:19:50', '2019-10-26 21:19:50', 11),
+(13, 'dfgdfgdgdfgd', '', NULL, '2019-10-26 21:19:53', '2019-10-26 21:19:53', 11),
+(14, 'dfgdfgdgdfgdfgd', '', NULL, '2019-10-26 21:19:56', '2019-10-26 21:19:56', 11),
+(15, 'ghfghfghfh', '', NULL, '2019-10-26 21:20:04', '2019-10-26 21:20:04', 11),
+(16, 'fghfghfhgfhf', '', NULL, '2019-10-26 21:20:07', '2019-10-26 21:20:07', 11),
+(17, 'terterte', '', NULL, '2019-10-26 21:20:57', '2019-10-26 21:20:57', 11),
+(18, 'wrwerw', '', NULL, '2019-10-26 21:21:02', '2019-10-26 21:21:02', 11),
+(19, 'dfsdfsfs', '', NULL, '2019-10-26 22:53:42', '2019-10-26 22:53:42', NULL),
+(20, 'ffsfs', '', NULL, '2019-10-26 22:53:55', '2019-10-26 22:53:55', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -49,7 +70,9 @@ CREATE TABLE `comments` (
   `text` text NOT NULL,
   `author_id` int(11) NOT NULL,
   `article_id` int(11) NOT NULL,
-  `is_published` tinyint(4) NOT NULL DEFAULT '0'
+  `is_published` tinyint(4) NOT NULL DEFAULT '0',
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -61,7 +84,9 @@ CREATE TABLE `comments` (
 CREATE TABLE `photos` (
   `id` int(11) NOT NULL,
   `name` varchar(255) NOT NULL,
-  `article_id` int(11) NOT NULL
+  `article_id` int(11) NOT NULL,
+  `created_at` datetime NOT NULL,
+  `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -194,7 +219,7 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT для таблицы `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT для таблицы `comments`

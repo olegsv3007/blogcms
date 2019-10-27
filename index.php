@@ -28,8 +28,16 @@ $router->get('admin', \App\Controllers\Admin\ArticleController::class . "@index"
 $router->get('admin/articles', \App\Controllers\Admin\ArticleController::class . "@index");
 $router->get('admin/articles/add', \App\Controllers\Admin\ArticleController::class . "@add");
 $router->get('admin/articles/edit', \App\Controllers\Admin\ArticleController::class . "@edit");
-
 $router->post('admin/articles/addArticle', \App\Controllers\Admin\ArticleController::class . "@addArticle");
+$router->post('admin/articles/updateArticle', \App\Controllers\Admin\ArticleController::class . "@updateArticle");
+$router->post('admin/articles/remove', \App\Controllers\Admin\ArticleController::class . "@removeArticle");
+$router->get('admin/articles/edit/*', function($articleId) {
+    return call_user_func_array("\App\Controllers\Admin\ArticleController::edit", [\App\Model\Article::find($articleId)]);
+});
+$router->get('admin/articles/*', function($page) {
+    return call_user_func_array("\App\Controllers\Admin\ArticleController::index", [$page]);
+});
+$router->post('admin/articles/', \App\Controllers\Admin\ArticleController::class . "@index");
 
 $router->get('admin/users/', \App\Controllers\Admin\UserController::class . '@index');
 $router->get('admin/users/add', \App\Controllers\Admin\UserController::class . "@add");
