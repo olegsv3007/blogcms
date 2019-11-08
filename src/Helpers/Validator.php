@@ -8,18 +8,19 @@ class Validator
 
     public function emailExistValidate($fieldName, $email, $userId = 0)
     {
-        if ($userId > 0 && \App\Model\User::find($userId)->email == $email) {
+        if ($userId > 0 && \App\Model\User::find($userId)->email->email == $email) {
             return;
         }
-        
-        if (\App\Model\User::where('email', $email)->count()) {
-            $this->addError($fieldName, "Пользователь с таким адресом уже зарегистрирован");
+        if ($findEmail = \App\Model\Email::where('email', $email)->first()){
+            if (\App\Model\User::where('email_id', $findEmail->id)->count()) {
+                $this->addError($fieldName, "Пользователь с таким адресом уже зарегистрирован");
+            }
         }
     }
 
     public function passwordVerifyValidate($fieldName, $password, $email)
     {
-        $user = \App\Model\User::where('email', $email)->first();
+        $user = \App\Model\User::where('email_id', \App\Model\Email::where('email', $email)->id)->first();
         if (!isset($user->password) || !password_verify($password, $user->password)) {
             $this->addError($fieldName, "Email или пароль введены неверно");
         }
