@@ -47,12 +47,14 @@ class UserController
     private static function createUser($userData)
     {
         $user = new \App\Model\User;
+        $email = new \App\Model\Email;
+
+        $email->email = $userData['email'];
+        $email->is_subscribe = $userData['subscribe'];
 
         $user->name = $userData['name'];
-        $user->email = $userData['email'];
         $user->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         $user->about_self = $userData['about-self'] ?? null;
-        $user->is_subscribe = $userData['subscribe'];
 
         if ($userData['avatar']) {
             $explodeName = explode('.', $userData['avatar']['name']);
@@ -60,10 +62,9 @@ class UserController
             move_uploaded_file($userData['avatar']['tmp_name'], APP_DIR . AVATARS_DIR . $fileName);
             $user->avatar = $fileName;
         }
-
-        $user->save();
-        $user->roles()->attach($userData['roles']);
-        $user->save();
+        $email->save();
+        $email->user()->save($user);
+        $email->user->roles()->attach($userData['roles']);
     }
 
     private static function validateUserForm()
@@ -104,9 +105,9 @@ class UserController
         if(! is_array($user)) {
             $userData['id'] = $user->id;
             $userData['name'] = $user->name;
-            $userData['email'] = $user->email;
+            $userData['email'] = $user->email->email;
             $userData['about-self'] = $user->about_self;
-            $userData['subscribe'] = $user->is_subscribe;
+            $userData['subscribe'] = $user->email->is_subscribe;
             $userData['avatar'] = $user->avatar;
             $userData['roles'] = $user->roles()->pluck('id')->toArray();
         } else {
@@ -145,17 +146,21 @@ class UserController
     {
         $user = \App\Model\User::find($userData['id']);
 
+        $email= \App\Model\Email::find($user->email_id);
+        $email->email = $userData['email'];
+        $email->is_subscribe = $userData['subscribe'];
+        $email->save();
+
         $user->name = $userData['name'];
-        $user->email = $userData['email'];
 
         if (isset($_POST['password']) && $_POST['password'] != '') {
             $user->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
         }
         
         $user->about_self = $userData['about-self'] ?? null;
-        $user->is_subscribe = $userData['subscribe'];
 
         if ($userData['avatar']) {
+            unlink(APP_DIR . AVATARS_DIR . $fileName);
             $explodeName = explode('.', $userData['avatar']['name']);
             $fileName = uniqid() . "." . end($explodeName);
             move_uploaded_file($userData['avatar']['tmp_name'], APP_DIR . AVATARS_DIR . $fileName);

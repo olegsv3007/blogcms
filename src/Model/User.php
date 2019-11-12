@@ -24,6 +24,6 @@ class User extends \Illuminate\Database\Eloquent\Model
 
     public function email()
     {
-        return $this->hasOne("App\Model\Email", 'id', 'email_id');
+        return $this->belongsTo("App\Model\Email");
     }
 }

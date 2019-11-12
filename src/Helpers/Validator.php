@@ -20,10 +20,11 @@ class Validator
 
     public function passwordVerifyValidate($fieldName, $password, $email)
     {
-        $user = \App\Model\User::where('email_id', \App\Model\Email::where('email', $email)->id)->first();
-        if (!isset($user->password) || !password_verify($password, $user->password)) {
-            $this->addError($fieldName, "Email или пароль введены неверно");
+        $email = \App\Model\Email::where('email', $email)->first();
+        if (isset($email->user) && isset($email->user->password) && password_verify($password, $email->user->password)) {
+            return;
         }
+        $this->addError($fieldName, "Email или пароль введены неверно");
     }
 
     public function minLengthValidate($fieldName, $str, $minLength)

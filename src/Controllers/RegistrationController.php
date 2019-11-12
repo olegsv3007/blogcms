@@ -55,14 +55,13 @@ class RegistrationController
 
     private static function createUser($userData)
     {
-        $email = new \App\Model\Email;
-        $email->email = $userData['email'];
-        //$email->save();
-
         $user = new \App\Model\User;
         $user->name = $userData['name'];
         $user->password = password_hash($userData['password'], PASSWORD_DEFAULT);
-        $user->email()->save($email);
-        $user->save();
+        $email = new \App\Model\Email;
+        $email->email = $userData['email'];
+        $email->save();
+        $email->user()->save($user);
+        $user->roles()->attach(1);
     }
 }

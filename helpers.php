@@ -18,7 +18,7 @@ function array_get($array, $key, $default = null)
 
 function getUser($email)
 {
-    return \App\Model\User::where('email', $email)->first();
+    return \App\Model\Email::where('email', $email)->first()->user;
 }
 
 function getArrFiles($filesIn)
@@ -44,4 +44,9 @@ function saveFile($file, $dir) {
         }
     }
     return false;
+}
+
+function emailExist($email) 
+{
+    return \App\Model\Email::where('email', $email)->first();
 }

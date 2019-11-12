@@ -59,6 +59,14 @@ $router->get('admin/statics/add', \App\Controllers\Admin\StaticController::class
 $router->get('admin/statics/edit', \App\Controllers\Admin\StaticController::class . "@edit");
 
 $router->get('admin/subscriptions', \App\Controllers\Admin\SubscriptionController::class . "@index");
+$router->get('admin/subscriptions/*', function($page) {
+    return call_user_func_array("\App\Controllers\Admin\SubscriptionController::index", [$page]);
+});
+$router->post('admin/subscriptions/', function($page) {
+    return call_user_func_array("\App\Controllers\Admin\SubscriptionController::index", [$page]);
+});
+$router->post('admin/subscribtions/change', \App\Controllers\Admin\SubscriptionController::class ."@change");
+
 
 $router->get('admin/comments', \App\Controllers\Admin\CommentController::class . "@index");
 

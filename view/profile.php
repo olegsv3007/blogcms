@@ -4,7 +4,7 @@ require_once 'layout/header.php';
 <div class="container">
 <h1 class="display-4 text-center my-4">Редактирование профиля</h1>
     <form class="bg-light my-5 p-5" method="post" action="update-profile" enctype="multipart/form-data">
-        <input type="hidden" name="id" value="<?=\App\Model\User::where('email', $_SESSION['email'])->first()->id;?>">
+        <input type="hidden" name="id" value="<?=\App\Model\Email::where('email', $_SESSION['email'])->first()->user->id;?>">
         <div class="d-flex flex-row justify-content-around">
             <div class="d-flex flex-column align-items-center mt-5">
                 <?php if (isset($this->data['profile']->avatar)):?>
@@ -29,7 +29,7 @@ require_once 'layout/header.php';
                 </div>
                 <div class="form-group">
                     <label for="email">Email:</label>
-                    <input type="email" class="form-control <?=isset($this->data['validation_info']['errors']['email']) ? 'is-invalid' : 'is-valid' ?>" name="email" id="email" value="<?=$this->data['profile']->email ?? ''?>">
+                    <input type="email" class="form-control <?=isset($this->data['validation_info']['errors']['email']) ? 'is-invalid' : 'is-valid' ?>" name="email" id="email" value="<?=$this->data['profile']->email->email ?? ''?>">
                     <? if (isset($this->data['validation_info']['errors']['email'])):?>
                         <div class="invalid-feedback"><?=$this->data['validation_info']['errors']['email']?></div>
                     <?endif;?>
@@ -39,7 +39,7 @@ require_once 'layout/header.php';
                     <textarea name="about-self" id="about-self" rows="5" class="form-control"><?=$this->data['profile']->about_self ?? ''?></textarea>
                 </div>
                 <div class="form-check my-5">
-                    <input class="form-check-input" type="checkbox" id="subscribe" name="subscribe" <?=$this->data['profile']->is_subscribe ? 'checked' : ''?>>
+                    <input class="form-check-input" type="checkbox" id="subscribe" name="subscribe" <?=$this->data['profile']->email->is_subscribe ? 'checked' : ''?>>
                     <label class="form-check-label" for="subscribe">
                         Подписаться на уведомления
                     </label>

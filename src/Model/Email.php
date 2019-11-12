@@ -9,6 +9,6 @@ class Email extends \Illuminate\Database\Eloquent\Model
 
     public function user()
     {
-        return $this->belongsTo('App\Model\User');
+        return $this->hasOne('App\Model\User');
     }
 }

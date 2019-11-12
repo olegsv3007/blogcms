@@ -28,15 +28,19 @@ class ProfileController
         $user = \App\Model\User::find($_POST['user_id']);
 
         if ($_FILES['avatar']['name']) {
+            unlink(APP_DIR . AVATARS_DIR . $user->avatar);
             $explodeName = explode('.', $_FILES['avatar']['name']);
             $fileName = uniqid() . "." . end($explodeName);
             move_uploaded_file($_FILES['avatar']['tmp_name'], APP_DIR . AVATARS_DIR . $fileName);
             $user->avatar = $fileName;
         }
 
+        $email = $user->email;
+        $email->email = $_POST['email'];
+        $email->is_subscribe = isset($_POST['subscribe']) ? 1 : 0;
+        $email->save();
+
         $user->name = $_POST['name'];
-        $user->email = $_POST['email'];
-        $user->is_subscribe = $_POST['subscribe'] ? 1 : 0;
         $user->about_self = $_POST['about-self'];
 
         if ($user->save()) {
@@ -65,6 +69,6 @@ class ProfileController
 
     private static function getProfile($email)
     {
-        return \App\Model\User::where('email', $email)->first();
+        return \App\Model\Email::where('email', $email)->first()->user;
     }
 }
