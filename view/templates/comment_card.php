@@ -5,7 +5,12 @@
     <div class="comment-content p-2 d-flex flex-column justify-content-between flex-fill">
         <div class="comment-author"><b><?=$comment->author->name?></b></div>
         <div class="comment-text"><?=$comment->text?></div>
-        <div class="comment-moderation text-right text-success"><?=$comment->author->is_published ? 'Модерация пройдена' : ''?></div>
+        <?php if ($comment->author->is_published):?>
+        <div class="comment-moderation text-right text-success">Модерация пройдена</div>
+        <?php else:?>
+        <div class="comment-moderation text-right text-danger">Модерация ожидается</div>
+        <?php endif;?>
+        
         <div class="comment-date text-right text-muted">Опубликовано: <?=$comment->author->created_at?></div>
     </div>
 </div>
