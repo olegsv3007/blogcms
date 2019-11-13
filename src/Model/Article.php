@@ -19,6 +19,6 @@ class Article extends \Illuminate\Database\Eloquent\Model
 
     public function comments()
     {
-        return $this->morphMany('App\Model\Comment', 'article');
+        return $this->hasMany('App\Model\Comment');
     }
 }

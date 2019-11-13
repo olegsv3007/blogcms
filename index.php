@@ -10,6 +10,11 @@ $router = new \App\Router();
 
 $router->get('/', \App\Controllers\HomeController::class . "@index");
 
+$router->post('news/addcomment', \App\Controllers\HomeController::class . "@addComment");
+$router->get('news/*', function($articleId) {
+    return call_user_func_array("\App\Controllers\HomeController::news", [$articleId]);
+});
+
 $router->get('about', \App\Controller::class . '@about');
 
 $router->get('registration', \App\Controllers\RegistrationController::class . "@index");
@@ -72,21 +77,8 @@ $router->get('admin/comments', \App\Controllers\Admin\CommentController::class .
 
 $router->get('admin/settings', \App\Controllers\Admin\SettingsController::class . "@index");
 
-
-
-$router->get('delivery/', function() {
-    return 'Delivery from callback';
-});
-$router->get('/test/*/*', function($param1, $param2) {
-    return "Test Page with param1 = $param1, param2 = $param2" . PHP_EOL;
-});
-
-$router->get('/posts/*/', function($param1) {
-    return "Название статьи: $param1";
-});
-
-$router->get('/bookcases/*/shelves/*/books/*', function($bookcase, $calve, $book) {
-    return "Шкаф: " . $bookcase . ", полка: " . $calve . ", книга:" . $book;
+$router->get('*', function($page) {
+    return call_user_func_array("\App\Controllers\HomeController::index", [$page]);
 });
 
 $application = new \App\Application($router);

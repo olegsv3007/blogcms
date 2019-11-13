@@ -14,6 +14,6 @@ class Comment extends \Illuminate\Database\Eloquent\Model
 
     public function author()
     {
-        return $thid->morphTo();
+        return $this->belongsTo('App\Model\User');
     }
 }
