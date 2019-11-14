@@ -19,6 +19,6 @@ class Article extends \Illuminate\Database\Eloquent\Model
 
     public function comments()
     {
-        return $this->hasMany('App\Model\Comment');
+        return $this->hasMany('App\Model\Comment')->orderBy('created_at', 'desc');
     }
 }

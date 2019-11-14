@@ -50,3 +50,12 @@ function emailExist($email)
 {
     return \App\Model\Email::where('email', $email)->first();
 }
+
+function is_subscriber()
+{
+    if (isset($_SESSION['email'])) {
+        return \App\Model\Email::where('email', $_SESSION['email'])->first()->is_subscribe ? 1 : 0;
+    }
+
+    return 0;
+}

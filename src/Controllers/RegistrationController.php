@@ -58,8 +58,13 @@ class RegistrationController
         $user = new \App\Model\User;
         $user->name = $userData['name'];
         $user->password = password_hash($userData['password'], PASSWORD_DEFAULT);
-        $email = new \App\Model\Email;
-        $email->email = $userData['email'];
+        $email = \App\Model\Email::where('email', $userData['email'])->first();
+        
+        if (is_null($email)) {
+            $email = new \App\Model\Email;
+            $email->email = $userData['email'];
+        }
+
         $email->save();
         $email->user()->save($user);
         $user->roles()->attach(1);

@@ -3,18 +3,21 @@ require_once VIEW_DIR . '/layout/admin_header.php';
 ?>
 <div class="col-9 mx-auto">
 <h2>Управление комментариями</h2>
-    <select id="inputState" class="form-control float-left w-25 my-3">
-        <option selected>Отображать только</option>
-        <option>Все</option>
-        <option>Пршедшие модерацию</option>
-        <option>Ожидают модерации</option>
-    </select>
-    <select id="inputState" class="form-control float-right w-25 my-3">
-        <option selected>Элементов на странице</option>
-        <option>20</option>
-        <option>50</option>
-        <option>100</option>
-    </select>
+    <form id="qty_items_per_page_form" action="/admin/comments" method="post">
+        <label for="view_state" class="d-block float-left my-4 mx-2">Отображать:</label>
+        <select id="view_state" name="view_state" class="form-control float-left w-25 my-3">
+            <option <?=$this->data['view_state'] == "%" ? 'selected' : ''?> value="%">Все</option>
+            <option <?=$this->data['view_state'] == "1" ? 'selected' : ''?> value="1">Пршедшие модерацию</option>
+            <option <?=$this->data['view_state'] == "0" ? 'selected' : ''?> value="0">Ожидают модерации</option>
+        </select>
+        
+        <select id="qty_items" name="qty_items" class="form-control float-right w-25 my-3">
+            <option <?=$this->data['paginator']->itemsPerPage == 20 ? 'selected' : ''?> value="20">20</option>
+            <option <?=$this->data['paginator']->itemsPerPage == 50 ? 'selected' : ''?> value="50">50</option>
+            <option <?=$this->data['paginator']->itemsPerPage == 100 ? 'selected' : ''?> value="100">100</option>
+        </select>
+        <label for="qty_items" class="d-block float-right my-4 mx-2">Элементов на странице:</label>
+    </form>
     <table class="table table-striped">
         <thead>
             <tr>
@@ -27,47 +30,13 @@ require_once VIEW_DIR . '/layout/admin_header.php';
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>Да</td>
-                <td><a href="" class="btn btn-sm btn-success">Опубликовать</a></td>      
-                <td><a href="" class="btn btn-sm btn-danger">Удалить</a></td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>Да</td>
-                <td><a href="" class="btn btn-sm btn-success">Опубликовать</a></td>      
-                <td><a href="" class="btn btn-sm btn-danger">Удалить</a></td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>Нет</td>
-                <td><a href="" class="btn btn-sm btn-success">Опубликовать</a></td>      
-                <td><a href="" class="btn btn-sm btn-danger">Удалить</a></td>
-            </tr>
+            <?php foreach ($this->data['comments'] as $comment) {
+                require TEMPLATES_DIR . "comment_row.php";
+            }
+            ?>
         </tbody>
     </table>
-    <nav aria-label="Page navigation example">
-        <ul class="pagination justify-content-center m-5">
-            <li class="page-item disabled">
-                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item active" aria-current="page">
-                <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-                <a class="page-link" href="#">Next</a>
-            </li>
-        </ul>
-    </nav>
+    <?php $this->data['paginator']->render()?>
 </div>
 <?php
 require_once VIEW_DIR . '/layout/admin_footer.php';

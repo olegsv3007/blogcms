@@ -47,9 +47,14 @@ class UserController
     private static function createUser($userData)
     {
         $user = new \App\Model\User;
-        $email = new \App\Model\Email;
 
-        $email->email = $userData['email'];
+        $email = \App\Model\Email::where('email', $userData['email'])->first();
+        
+        if (is_null($email)) {
+            $email = new \App\Model\Email;
+            $email->email = $userData['email'];
+        }
+
         $email->is_subscribe = $userData['subscribe'];
 
         $user->name = $userData['name'];

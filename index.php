@@ -3,7 +3,6 @@
 error_reporting(E_ALL);
 ini_set('display_errors',true);
 session_start();
-
 require_once 'bootstrap.php';
 
 $router = new \App\Router();
@@ -14,6 +13,8 @@ $router->post('news/addcomment', \App\Controllers\HomeController::class . "@addC
 $router->get('news/*', function($articleId) {
     return call_user_func_array("\App\Controllers\HomeController::news", [$articleId]);
 });
+
+$router->post('subscribe', \App\Controllers\HomeController::class . "@subscribe");
 
 $router->get('about', \App\Controller::class . '@about');
 
@@ -74,6 +75,12 @@ $router->post('admin/subscribtions/change', \App\Controllers\Admin\SubscriptionC
 
 
 $router->get('admin/comments', \App\Controllers\Admin\CommentController::class . "@index");
+$router->get('admin/comments/*', function($page) {
+    return call_user_func_array("\App\Controllers\Admin\CommentController::index", [$page]);
+});
+$router->post('admin/comments/', \App\Controllers\Admin\CommentController::class . "@index");
+$router->post('admin/comments/changeStatus', \App\Controllers\Admin\CommentController::class . "@changeStatus");
+$router->post('admin/comments/delete', \App\Controllers\Admin\CommentController::class . "@delete");
 
 $router->get('admin/settings', \App\Controllers\Admin\SettingsController::class . "@index");
 

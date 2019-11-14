@@ -11,6 +11,6 @@
         <div class="comment-moderation text-right text-danger">Модерация ожидается</div>
         <?php endif;?>
         
-        <div class="comment-date text-right text-muted">Опубликовано: <?=$comment->author->created_at?></div>
+        <div class="comment-date text-right text-muted">Опубликовано: <?=$comment->created_at?></div>
     </div>
 </div>

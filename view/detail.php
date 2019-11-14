@@ -3,7 +3,7 @@ require_once VIEW_DIR . '/layout/header.php';
 ?>
 <div class="container col-6">
     <h1 class="display-4 text-center my-4"><?=$this->data['article']->header?></h1> 
-    <div class="text-right text-muted">Дата публикации: <?=$this->data['article']->created_at?></div>
+    <div class="text-right text-muted">Дата публикации: <?=date('d.m.Y', strtotime($this->data['article']->created_at))?></div>
     <hr>
     <?php if ($this->data['article']->image):?>
     <img src="<?=ARTICLE_IMAGE_DIR . $this->data['article']->image?>" class="col-6 float-left img-thumbnail m-3" alt="Адаптивные изображения">

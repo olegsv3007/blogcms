@@ -8,7 +8,7 @@ class HomeController
     {
         $qtyItems = 10;
         $totalItems = \App\Model\Article::all()->count();
-        $data['articles'] = \App\Model\Article::skip(($page - 1) * $qtyItems)->take($qtyItems)->get();
+        $data['articles'] = \App\Model\Article::orderBy('created_at', 'desc')->skip(($page - 1) * $qtyItems)->take($qtyItems)->get();
         $data['paginator'] = new \App\Helpers\Paginator($totalItems, $qtyItems, $page);
         return new \App\View('index', $data);
     }
@@ -32,5 +32,19 @@ class HomeController
         $comment->save();
 
         return self::news($_POST['article_id']);
+    }
+
+    public static function subscribe()
+    {
+        $sendEmail = $_POST['email'];
+        $email = \App\Model\Email::where('email', $sendEmail)->first();
+
+        if (is_null($email)) {
+            $email = new \App\Model\Email();
+            $email->email = $sendEmail;
+        }
+        $email->is_subscribe = 1;
+        $email->save();
+        return self::index();
     }
 }
