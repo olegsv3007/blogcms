@@ -6,10 +6,10 @@ class HomeController
 {
     public static function index($page = 1)
     {
-        $qtyItems = 10;
+        $itemsPerPage = \App\Helpers\Settings::getInstance()->get("articles_per_page");
         $totalItems = \App\Model\Article::all()->count();
-        $data['articles'] = \App\Model\Article::orderBy('created_at', 'desc')->skip(($page - 1) * $qtyItems)->take($qtyItems)->get();
-        $data['paginator'] = new \App\Helpers\Paginator($totalItems, $qtyItems, $page);
+        $data['articles'] = \App\Model\Article::orderBy('created_at', 'desc')->skip(($page - 1) * $itemsPerPage)->take($itemsPerPage)->get();
+        $data['paginator'] = new \App\Helpers\Paginator($totalItems, $itemsPerPage, $page);
         return new \App\View('index', $data);
     }
 

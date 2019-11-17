@@ -95,6 +95,8 @@ $router->post('admin/comments/changeStatus', \App\Controllers\Admin\CommentContr
 $router->post('admin/comments/delete', \App\Controllers\Admin\CommentController::class . "@delete");
 
 $router->get('admin/settings', \App\Controllers\Admin\SettingsController::class . "@index");
+$router->post('admin/settings/save', \App\Controllers\Admin\SettingsController::class . "@saveSettings");
+
 
 $router->get('page/*', function($route) {
     if ($page = \App\Model\Page::where('url', $route)->first()) {
