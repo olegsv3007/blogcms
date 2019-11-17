@@ -5,7 +5,7 @@
     <div class="comment-content p-2 d-flex flex-column justify-content-between flex-fill">
         <div class="comment-author"><b><?=$comment->author->name?></b></div>
         <div class="comment-text"><?=$comment->text?></div>
-        <?php if ($comment->author->is_published):?>
+        <?php if ($comment->is_published):?>
         <div class="comment-moderation text-right text-success">Модерация пройдена</div>
         <?php else:?>
         <div class="comment-moderation text-right text-danger">Модерация ожидается</div>

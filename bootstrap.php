@@ -3,11 +3,12 @@
 define('APP_DIR', $_SERVER['DOCUMENT_ROOT']);
 define('VIEW_DIR', $_SERVER['DOCUMENT_ROOT'] . '/view');
 define('CONFIG_DIR', $_SERVER['DOCUMENT_ROOT']. '/configs');
-define('MODEL_DIR', $_SERVER['DOCUMENT_ROOT'] . '/src/Model');
+define('MODEL_DIR', $_SERVER['DOCUMENT_ROOT'] . '/src/Model/');
 define('ARTICLE_IMAGE_DIR', '/images/articles/');
 define('AVATARS_DIR', '/images/avatars/');
 define('ARTICLE_PHOTOS', '/images/articles/');
 define('TEMPLATES_DIR', APP_DIR . '/view/templates/');
+define('PAGES_DIR', APP_DIR . '/view/static_pages/');
 
 
 require_once 'helpers.php';

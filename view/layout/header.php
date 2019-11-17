@@ -30,9 +30,9 @@ require_once 'base/header.php';
     </nav>
     <nav class="nav justify-content-center align-items-center">
         <a class="nav-link text-dark font-weight-bold" href="/">Главная</a>
-        <a class="nav-link text-dark" href="/static_pages/static1">Статичная страница 1</a>
-        <a class="nav-link text-dark" href="/static_pages/static2">Статичная страница 2</a>
-        <a class="nav-link text-dark" href="/aboutus.php">О нас</a>
+        <?php foreach (\App\Model\Page::all() as $page):?>
+        <a class="nav-link text-dark" href="/page/<?=$page->url?>"><?=$page->name?></a>
+        <?php endforeach;?>
     </nav>
     <hr class="m-0 p-0">
 </div>

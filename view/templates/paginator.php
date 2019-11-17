@@ -1,3 +1,4 @@
+<?php if ($this->getQuantityPages() > 1):?>
 <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center m-5">
         <li class="page-item <?= $this->currentPage == 1 ? 'disabled' : ''?>">
@@ -11,3 +12,4 @@
         </li>
     </ul>
 </nav>
+<?php endif;?>

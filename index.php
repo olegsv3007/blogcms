@@ -60,9 +60,21 @@ $router->get('admin/users/edit/*', function($userId) {
     return call_user_func_array("\App\Controllers\Admin\UserController::edit", [\App\Model\User::find($userId)]);
 });
 
-$router->get('admin/statics', \App\Controllers\Admin\StaticController::class . "@index");
-$router->get('admin/statics/add', \App\Controllers\Admin\StaticController::class . "@add");
-$router->get('admin/statics/edit', \App\Controllers\Admin\StaticController::class . "@edit");
+$router->get('admin/pages', \App\Controllers\Admin\StaticController::class . "@index");
+$router->get('admin/pages/add', \App\Controllers\Admin\StaticController::class . "@add");
+$router->get('admin/pages/edit', \App\Controllers\Admin\StaticController::class . "@edit");
+$router->post('admin/pages/addPage', \App\Controllers\Admin\StaticController::class . "@addPage");
+$router->get('admin/pages/edit/*', function($pageId) {
+    return call_user_func_array("\App\Controllers\Admin\StaticController::edit", [\App\Model\Page::find($pageId)]);
+});
+$router->post('admin/pages/updatePage', \App\Controllers\Admin\StaticController::class . "@updatePage");
+$router->get('admin/pages/*', function($page) {
+    return call_user_func_array("\App\Controllers\Admin\StaticController::index", [$page]);
+});
+$router->post('admin/pages/', function($page) {
+    return call_user_func_array("\App\Controllers\Admin\StaticController::index", [$page]);
+});
+$router->post('admin/pages/remove', \App\Controllers\Admin\StaticController::class . "@removePage");
 
 $router->get('admin/subscriptions', \App\Controllers\Admin\SubscriptionController::class . "@index");
 $router->get('admin/subscriptions/*', function($page) {
@@ -84,9 +96,20 @@ $router->post('admin/comments/delete', \App\Controllers\Admin\CommentController:
 
 $router->get('admin/settings', \App\Controllers\Admin\SettingsController::class . "@index");
 
+$router->get('page/*', function($route) {
+    if ($page = \App\Model\Page::where('url', $route)->first()) {
+        if (file_exists(PAGES_DIR . $page->filename . ".php")) {
+            return new \App\View("static_pages/" . $page->filename);
+        }
+    }
+
+    return new \App\View("404");
+});
+
 $router->get('*', function($page) {
     return call_user_func_array("\App\Controllers\HomeController::index", [$page]);
 });
+
 
 $application = new \App\Application($router);
 

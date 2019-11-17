@@ -39,7 +39,7 @@ require_once VIEW_DIR . '/layout/base/header.php';
                     <a href="/admin/articles" class="list-group-item list-group-item-action">Статьи</a>
                     <a href="/admin/subscriptions" class="list-group-item list-group-item-action">Подписки</a>
                     <a href="/admin/comments" class="list-group-item list-group-item-action">Комментарии</a>
-                    <a href="/admin/statics" class="list-group-item list-group-item-action">Статичные страницы</a>
+                    <a href="/admin/pages" class="list-group-item list-group-item-action">Статичные страницы</a>
                     <a href="/admin/settings" class="list-group-item list-group-item-action">Настройки</a>
                 </div>
             </div>
