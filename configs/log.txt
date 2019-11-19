@@ -1,0 +1,14 @@
+
+============================
+Сообщения для: petrov@example.com
+Время отправки: 19.11.19 - 01:42
+============================
+Заголовок письма:На сайте добавлена новая запись: Cheat sheet for Linux users and permissions
+Содержимое письма:
+Новая статья: Cheat sheet for Linux users and permissions,
+The Linux operating system is a true multi-user OS, meaning it assumes that there's data on every computer that should be protected, whether in the interest of privacy, security, or system integrity.
+
+Linux uses file ownership and permissions to ma
+<a href='blog.cms/news/19'>Чиать</a>
+----------------------------
+<a href='blog.cms/unsub/5dd3bb9ec3945'>Отписаться от рассылки</a>
