@@ -14,8 +14,11 @@ class CommentController
         $_SESSION['view_state'] = isset($_POST['view_state']) ? $_POST["view_state"] : (isset($_SESSION['view_state']) ? $_SESSION['view_state'] : "%");
         $quantityItemsPerPage = $_SESSION['qty_items'];
         $data['view_state'] = $_SESSION['view_state'] ?? '%';
-
-        $totalItems = \App\Model\Comment::where('is_published', $data['view_state'])->count();
+        $totalItems = \App\Model\Comment::where('is_published', "LIKE", $data['view_state'])->count();
+        
+        if ($quantityItemsPerPage == "Все") {
+            $quantityItemsPerPage = $totalItems;
+        }
 
         $data['paginator'] = new \App\Helpers\Paginator($totalItems, $quantityItemsPerPage, $page);
         $data['comments'] = \App\Model\Comment::where('is_published', 'LIKE', $data['view_state'])->skip(($page - 1) * $quantityItemsPerPage)->take($quantityItemsPerPage)->get();

@@ -7,12 +7,14 @@ class Route
     private $method;
     private $path;
     private $callback;
+    private $roles;
 
-    public function __construct($method, $path, $callback)
+    public function __construct($method, $path, $callback, $roles)
     {
         $this->method = $method;
         $this->path = $this->formatPath($path);
         $this->callback = $this->prepareCallback($callback);
+        $this->roles = $roles;
     }
 
     private function prepareCallback($callback)
@@ -43,6 +45,9 @@ class Route
 
     public function run($uri)
     {
+        if (null !== $this->roles && !userHasRole($this->roles)) {
+            return new \App\View("access_error");
+        }
         if (! is_callable($this->callback)) {
             return;
         }

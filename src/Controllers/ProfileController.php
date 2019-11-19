@@ -28,7 +28,9 @@ class ProfileController
         $user = \App\Model\User::find($_POST['user_id']);
 
         if ($_FILES['avatar']['name']) {
-            unlink(APP_DIR . AVATARS_DIR . $user->avatar);
+            if (file_exists(APP_DIR . AVATARS_DIR . $user->avatar)) {
+                unlink(APP_DIR . AVATARS_DIR . $user->avatar);
+            }
             $explodeName = explode('.', $_FILES['avatar']['name']);
             $fileName = uniqid() . "." . end($explodeName);
             move_uploaded_file($_FILES['avatar']['tmp_name'], APP_DIR . AVATARS_DIR . $fileName);

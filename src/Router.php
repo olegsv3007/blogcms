@@ -6,14 +6,14 @@ class Router
 {
     private $routes;
 
-    public function get($path, $callback)
+    public function get($path, $callback, $roles = null)
     {
-        $this->routes[] = new Route('GET', $path, $callback);
+        $this->routes[] = new Route('GET', $path, $callback, $roles);
     }
 
-    public function post($path, $callback)
+    public function post($path, $callback, $roles = null)
     {
-        $this->routes[] = new Route('POST', $path, $callback);
+        $this->routes[] = new Route('POST', $path, $callback, $roles);
     }
 
     public function dispatch()

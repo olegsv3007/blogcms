@@ -63,6 +63,7 @@ class RegistrationController
         if (is_null($email)) {
             $email = new \App\Model\Email;
             $email->email = $userData['email'];
+            $email->unsub_id = uniqid();
         }
 
         $email->save();

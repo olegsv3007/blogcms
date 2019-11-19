@@ -13,7 +13,9 @@ class StaticController
         $_SESSION['qty_items'] = isset($_POST['qty_items']) ? $_POST["qty_items"] : (isset($_SESSION['qty_items']) ? $_SESSION['qty_items'] : 20);
         $quantityItemsPerPage = $_SESSION['qty_items'];
         $totalItems = \App\Model\Article::all()->count();
-
+        if ($quantityItemsPerPage == "Все") {
+            $quantityItemsPerPage = $totalItems;
+        }
         $data['pages'] = \App\Model\Page::skip(($page - 1) * $quantityItemsPerPage)->take($quantityItemsPerPage)->get();
         $data['paginator'] = new \App\Helpers\Paginator($totalItems, $quantityItemsPerPage, $page);
         return new \App\View('admin\statics\index', $data);
@@ -34,7 +36,7 @@ class StaticController
         $page['filename'] = $_POST['filename'];
         $page['url'] = $_POST['url'];
         $page['name'] = $_POST['name'];
-        $page['html'] = $_POST['content'];
+        $page['html'] = str_replace("/r/n", "<br>", $_POST['content']);
 
         if (isset($validateInfo['errors'])) {
             return self::add($page, $validateInfo);
@@ -76,9 +78,7 @@ class StaticController
 
     public static function edit($page, $validateInfo = null)
     {
-        $file = PAGES_DIR . $page->filename . ".php";
-        $html = file_get_contents($file);
-        $page['html'] = $html;
+        $page['html'] = file_get_contents( PAGES_DIR . $page->filename . ".php");
         $data['page'] = $page;
         $data['validation_info'] = $validateInfo;
         return new \App\View('admin\statics\edit', $data);
@@ -97,16 +97,20 @@ class StaticController
         $page['url'] = $_POST['url'];
         $page['filename'] = $_POST['filename'];
 
+        file_put_contents(PAGES_DIR . $page['filename'] . ".php", $_POST['content'], LOCK_EX);
         self::savePageToDb($page);
         return self::index();
     }
 
     public static function removePage()
     {
-        if (isset($_POST['id']) && $page = \App\Model\Page::find($_POST['id'])) {
+        $page = \App\Model\Page::find($_POST['id']);
+        if (isset($_POST['id']) && $page) {
             $page->delete();
         }
-
+        if (file_exists(PAGES_DIR . $page->filename . ".php")) {
+            unlink(PAGES_DIR . $page->filename . ".php");
+        }
         return self::index();
     }
 }

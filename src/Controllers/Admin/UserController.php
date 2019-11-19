@@ -12,6 +12,9 @@ class UserController
         $_SESSION['qty_items'] = isset($_POST['qty_items']) ? $_POST["qty_items"] : (isset($_SESSION['qty_items']) ? $_SESSION['qty_items'] : 20);
         $quantityItemsPerPage = $_SESSION['qty_items'];
         $totalItems = \App\Model\User::all()->count();
+        if ($quantityItemsPerPage == "Все") {
+            $quantityItemsPerPage = $totalItems;
+        }
         $data['users'] = \App\Model\User::skip(($page - 1) * $quantityItemsPerPage)->take($quantityItemsPerPage)->get();
         $data['paginator'] = new \App\Helpers\Paginator($totalItems, $quantityItemsPerPage, $page);
         return new \App\View('admin\users\index', $data);
@@ -53,6 +56,7 @@ class UserController
         if (is_null($email)) {
             $email = new \App\Model\Email;
             $email->email = $userData['email'];
+            $email->unsub_id = uniqid();
         }
 
         $email->is_subscribe = $userData['subscribe'];
@@ -165,7 +169,9 @@ class UserController
         $user->about_self = $userData['about-self'] ?? null;
 
         if ($userData['avatar']) {
-            unlink(APP_DIR . AVATARS_DIR . $fileName);
+            if (file_exists(APP_DIR . AVATARS_DIR . $user->avatar)) {
+                unlink(APP_DIR . AVATARS_DIR . $user->avatar);
+            }
             $explodeName = explode('.', $userData['avatar']['name']);
             $fileName = uniqid() . "." . end($explodeName);
             move_uploaded_file($userData['avatar']['tmp_name'], APP_DIR . AVATARS_DIR . $fileName);

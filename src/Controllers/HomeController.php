@@ -19,19 +19,25 @@ class HomeController
         if (!$data['article'] = \App\Model\Article::find($articleId)) {
             return new \App\View('404');
         }
+        $data['photos'] = \App\Model\Photo::where('article_id', $data['article']->id)->get();
         return new \App\View('detail', $data);
     }
 
     public static function addComment()
     {
-        $comment = new \App\Model\Comment;
-        $comment->text = $_POST['comment'];
-        $comment->author_id = $_POST['author_id'];
-        $comment->article_id = $_POST['article_id'];
+        if (isset($_SESSION['email'])) {
+            $comment = new \App\Model\Comment;
+            $comment->text = $_POST['comment'];
+            $comment->author_id = $_POST['author_id'];
+            $comment->article_id = $_POST['article_id'];
 
-        $comment->save();
-
-        return self::news($_POST['article_id']);
+            if (userHasRole("Администратор|Контент менеджер")) {
+                $comment->is_published = 1;
+            }
+            
+            $comment->save();
+            return self::news($_POST['article_id']);
+        }
     }
 
     public static function subscribe()
@@ -42,9 +48,20 @@ class HomeController
         if (is_null($email)) {
             $email = new \App\Model\Email();
             $email->email = $sendEmail;
+            $email->unsub_id = uniqid();
         }
         $email->is_subscribe = 1;
         $email->save();
+        return self::index();
+    }
+
+    public static function unsub($unsub_id)
+    {
+        $email = \App\Model\Email::where('unsub_id', $unsub_id)->first();
+        if ($email) {
+            $email->is_subscribe = 0;
+            $email->save();
+        }
         return self::index();
     }
 }

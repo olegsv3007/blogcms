@@ -12,9 +12,11 @@ require_once VIEW_DIR . '/layout/admin_header.php';
         </select>
         
         <select id="qty_items" name="qty_items" class="form-control float-right w-25 my-3">
-            <option <?=$this->data['paginator']->itemsPerPage == 20 ? 'selected' : ''?> value="20">20</option>
-            <option <?=$this->data['paginator']->itemsPerPage == 50 ? 'selected' : ''?> value="50">50</option>
-            <option <?=$this->data['paginator']->itemsPerPage == 100 ? 'selected' : ''?> value="100">100</option>
+            <option <?=$this->data['paginator']->itemsPerPage == 10 ? 'selected' : ''?>>1</option>
+            <option <?=$this->data['paginator']->itemsPerPage == 20 ? 'selected' : ''?>>20</option>
+            <option <?=$this->data['paginator']->itemsPerPage == 50 ? 'selected' : ''?>>50</option>
+            <option <?=$this->data['paginator']->itemsPerPage == 200 ? 'selected' : ''?>>200</option>
+            <option <?=$_SESSION['qty_items'] == "Все" ? 'selected' : ''?>>Все</option>
         </select>
         <label for="qty_items" class="d-block float-right my-4 mx-2">Элементов на странице:</label>
     </form>

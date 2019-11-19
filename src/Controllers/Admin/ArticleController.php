@@ -13,6 +13,9 @@ class ArticleController
         $_SESSION['qty_items'] = isset($_POST['qty_items']) ? $_POST["qty_items"] : (isset($_SESSION['qty_items']) ? $_SESSION['qty_items'] : 20);
         $quantityItemsPerPage = $_SESSION['qty_items'];
         $totalItems = \App\Model\Article::all()->count();
+        if ($quantityItemsPerPage == "Все") {
+            $quantityItemsPerPage = $totalItems;
+        }
         $data['articles'] = \App\Model\Article::skip(($page - 1) * $quantityItemsPerPage)->take($quantityItemsPerPage)->get();
         $data['paginator'] = new \App\Helpers\Paginator($totalItems, $quantityItemsPerPage, $page);
         return new \App\View('admin\articles\index', $data);
@@ -38,7 +41,11 @@ class ArticleController
             return self::add($article, $validateInfo);
         }
 
-        self::saveArticle($article);
+        $article = self::saveArticle($article);
+
+        foreach(\App\Model\Email::where('is_subscribe', 1)->get() as $email) {
+            sendEmail($email->email, $article->header, substr($article->content, 0, 250), $_SERVER['HTTP_HOST'] . "/news/" . $article->id, $_SERVER['HTTP_HOST'] . "/unsub/" . $email->unsub_id);
+        }
 
         return self::index();
     }
@@ -69,6 +76,7 @@ class ArticleController
                 $photo->save();
             }
         }
+        return $article;
     }
 
     public static function edit($article, $validationInfo = null)

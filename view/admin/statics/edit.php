@@ -42,5 +42,5 @@ require_once VIEW_DIR . '/layout/admin_header.php';
 </div>
 </div>
 <?php
-require_once VIEW_DIR . '/layout/admin_footer.php';a
+require_once VIEW_DIR . '/layout/admin_footer.php';
 ?>

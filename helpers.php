@@ -21,6 +21,20 @@ function getUser($email)
     return \App\Model\Email::where('email', $email)->first()->user;
 }
 
+function userHasRole($needleRoles)
+{
+    if (isset($_SESSION['email'])) {
+        $roles = getUser($_SESSION['email'])->roles->toArray();
+        $needleRoles = explode('|', $needleRoles);
+        foreach ($roles as $role) {
+            if (in_array($role['name'], $needleRoles)) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
 function getArrFiles($filesIn)
 {
     $files = [];
@@ -58,4 +72,24 @@ function is_subscriber()
     }
 
     return 0;
+}
+
+function sendEmail($adress, $header, $description, $link, $unsubLink)
+{
+    $logFile = fopen(APP_DIR . "/configs/log.txt", "a");
+    $message = "
+============================
+Сообщения для: $adress
+Время отправки: " . date("d.m.y - h:i", time()) ."
+============================
+Заголовок письма:На сайте добавлена новая запись: $header
+Содержимое письма:
+Новая статья: $header,
+$description
+<a href='$link'>Чиать</a>
+----------------------------
+<a href='$unsubLink'>Отписаться от рассылки</a>
+";
+    fwrite($logFile, $message);
+    fclose($logFile);
 }

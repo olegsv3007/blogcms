@@ -12,6 +12,9 @@ class SubscriptionController
         $_SESSION['qty_items'] = isset($_POST['qty_items']) ? $_POST["qty_items"] : (isset($_SESSION['qty_items']) ? $_SESSION['qty_items'] : 20);
         $quantityItemsPerPage = $_SESSION['qty_items'];
         $totalItems = \App\Model\Email::all()->count();
+        if ($quantityItemsPerPage == "Все") {
+            $quantityItemsPerPage = $totalItems;
+        }
         $data['emails'] = \App\Model\Email::skip(($page - 1) * $quantityItemsPerPage)->take($quantityItemsPerPage)->get();
         $data['paginator'] = new \App\Helpers\Paginator($totalItems, $quantityItemsPerPage, $page);
 
