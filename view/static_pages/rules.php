@@ -1,4 +1,4 @@
-<?php require_once VIEW_DIR . '/layout/header.php';?>
+<?php require_once VIEW_DIR . '/layout/header.php'; ?>
 <main>
 <br>
 <br>
@@ -10,4 +10,4 @@
 </p>
 </div>
 </main>
-<?php require_once VIEW_DIR . '/layout/footer.php';?>                                                                                                                        
+<?php require_once VIEW_DIR . '/layout/footer.php'; ?>                                                                                                                        

@@ -30,12 +30,14 @@ class ArticleController
 
     public static function addArticle()
     {
-        $validateInfo = self::validateArticleForm();
-
+        
         $article['header'] = $_POST['header'];
         $article['content'] = $_POST['content'];
         $article['image'] = $_FILES['image'];
         $article['photos'] = getArrFiles($_FILES['photos']);
+
+        $validateInfo = self::validateArticleForm($article);
+
 
         if (isset($validateInfo['errors'])) {
             return self::add($article, $validateInfo);
@@ -88,16 +90,17 @@ class ArticleController
     }
 
     public static function updateArticle() {
-        $validationInfo = self::validateArticleForm();
-        if (isset($validationInfo['errors'])) {
-            return self::edit(\App\Model\Article::find($_POST['id']), $validationInfo);
-        }
-
         $article['id'] = $_POST['id'];
         $article['header'] = $_POST['header'];
         $article['content'] = $_POST['content'];
         $article['image'] = $_FILES['image'];
         $article['photos'] = getArrFiles($_FILES['photos']);
+
+        $validationInfo = self::validateArticleForm($article);
+
+        if (isset($validationInfo['errors'])) {
+            return self::edit(\App\Model\Article::find($_POST['id']), $validationInfo);
+        }
 
         self::saveArticle($article);
         return self::index();
@@ -112,20 +115,20 @@ class ArticleController
         return self::index();
     }
 
-    private static function validateArticleForm()
+    private static function validateArticleForm($article)
     {
         $formValidator = new \App\Helpers\Validator;
 
-        $formValidator->maxLengthValidate('header', $_POST['header'], 255);
-        $formValidator->requiredValidate('header', $_POST['header']);
+        $formValidator->maxLengthValidate('header', $article['header'], 255);
+        $formValidator->requiredValidate('header', $article['header']);
 
         $mimeTypes = ["image/jpeg", "image/png"];
 
-        if (!$_FILES['image']['error']) {
-            $formValidator->validateFile("image", $_FILES['image'], $mimeTypes);
+        if (!$article['image']['error']) {
+            $formValidator->validateFile("image", $article['image'], $mimeTypes);
         }
 
-        $photos = getArrFiles($_FILES['photos']);
+        $photos = $article['photos'];
 
         foreach ($photos as $photo) {
             if (!$photo['error']) {

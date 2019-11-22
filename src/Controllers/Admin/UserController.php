@@ -30,14 +30,14 @@ class UserController
 
     public static function addUser()
     {
-        $validationInfo = self::validateUserForm();
-
         $user['name'] = $_POST['name'];
         $user['email'] = $_POST['email'];
+        $user['password'] = $_POST['password'];
         $user['about-self'] = $_POST['about-self'];
         $user['roles'] = $_POST['roles'];
         $user['subscribe'] = isset($_POST['subscribe']) ? 1 : 0;
         $user['avatar'] = $_FILES['avatar']['name'] ? $_FILES['avatar'] : null;
+        $validationInfo = self::validateUserForm($user);
 
         if (isset($validationInfo['errors'])) {
             return self::add($user, $validationInfo);
@@ -62,7 +62,7 @@ class UserController
         $email->is_subscribe = $userData['subscribe'];
 
         $user->name = $userData['name'];
-        $user->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        $user->password = password_hash($userData['password'], PASSWORD_DEFAULT);
         $user->about_self = $userData['about-self'] ?? null;
 
         if ($userData['avatar']) {
@@ -76,27 +76,27 @@ class UserController
         $email->user->roles()->attach($userData['roles']);
     }
 
-    private static function validateUserForm()
+    private static function validateUserForm($user)
     {
         $formValidator = new \App\Helpers\Validator;
 
-        $formValidator->minLengthValidate('name', $_POST['name'], 5);
-        $formValidator->requiredValidate('name', $_POST['name']);
+        $formValidator->minLengthValidate('name', $user['name'], 5);
+        $formValidator->requiredValidate('name', $user['name']);
 
-        $formValidator->emailExistValidate('email', $_POST['email'], $_POST['id'] ?? 0);
-        $formValidator->pregValidate('email', $_POST['email'], '/@/');
-        $formValidator->requiredValidate('email', $_POST['email']);
+        $formValidator->emailExistValidate('email', $user['email'], $user['id'] ?? 0);
+        $formValidator->pregValidate('email', $user['email'], '/@/');
+        $formValidator->requiredValidate('email', $user['email']);
 
-        $formValidator->minLengthValidate('password', $_POST['password'], 6);
-        $formValidator->maxLengthValidate('password', $_POST['password'], 12);
+        $formValidator->minLengthValidate('password', $user['password'], 6);
+        $formValidator->maxLengthValidate('password', $user['password'], 12);
 
-        if (! isset($_POST['id'])) {
-            $formValidator->requiredValidate('password', $_POST['password']);    
+        if (! isset($user['id'])) {
+            $formValidator->requiredValidate('password', $user['password']);    
         }
 
-        if ($_FILES['avatar']['name']) {
+        if ($user['avatar']['name']) {
             $mimeTypes = ["image/jpeg", "image/png"];
-            $formValidator->validateFile("avatar", $_FILES['avatar'], $mimeTypes);
+            $formValidator->validateFile("avatar", $user['avatar'], $mimeTypes);
         }
 
         return $formValidator->getResultValidate();
@@ -132,15 +132,16 @@ class UserController
 
 
     public static function saveUser() {
-        $validationInfo = self::validateUserForm();
-
         $user['id'] = $_POST['id'];
         $user['name'] = $_POST['name'];
         $user['email'] = $_POST['email'];
+        $user['password'] = $_POST['password'];
         $user['about-self'] = $_POST['about-self'];
         $user['roles'] = $_POST['roles'];
         $user['subscribe'] = isset($_POST['subscribe']) ? 1 : 0;
         $user['avatar'] = $_FILES['avatar']['name'] != '' ? $_FILES['avatar'] : null;
+
+        $validationInfo = self::validateUserForm($user);
 
         if (isset($validationInfo['errors'])) {
             return self::edit($user, $validationInfo);
@@ -162,8 +163,8 @@ class UserController
 
         $user->name = $userData['name'];
 
-        if (isset($_POST['password']) && $_POST['password'] != '') {
-            $user->password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+        if (isset($userData['password']) && $userData['password'] != '') {
+            $user->password = password_hash($userData['password'], PASSWORD_DEFAULT);
         }
         
         $user->about_self = $userData['about-self'] ?? null;

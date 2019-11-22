@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Хост: 127.0.0.1:3306
--- Время создания: Ноя 19 2019 г., 13:46
+-- Время создания: Ноя 22 2019 г., 15:17
 -- Версия сервера: 5.7.25
 -- Версия PHP: 7.2.10
 
@@ -61,7 +61,7 @@ CREATE TABLE `comments` (
   `text` text NOT NULL,
   `author_id` int(11) NOT NULL,
   `article_id` int(11) NOT NULL,
-  `is_published` tinyint(4) NOT NULL DEFAULT '0',
+  `is_published` tinyint(1) NOT NULL DEFAULT '0',
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -82,7 +82,7 @@ INSERT INTO `comments` (`id`, `text`, `author_id`, `article_id`, `is_published`,
 CREATE TABLE `emails` (
   `id` int(11) NOT NULL,
   `email` varchar(255) NOT NULL,
-  `is_subscribe` tinyint(4) NOT NULL DEFAULT '0',
+  `is_subscribe` tinyint(1) NOT NULL DEFAULT '0',
   `unsub_id` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL,
   `updated_at` datetime NOT NULL
@@ -93,7 +93,9 @@ CREATE TABLE `emails` (
 --
 
 INSERT INTO `emails` (`id`, `email`, `is_subscribe`, `unsub_id`, `created_at`, `updated_at`) VALUES
-(20, 'petrov@example.com', 1, '5dd3bb9ec3945', '2019-11-12 15:51:38', '2019-11-19 13:41:37');
+(20, 'petrov@example.com', 1, '5dd3bb9ec3945', '2019-11-12 15:51:38', '2019-11-22 15:10:56'),
+(21, 'ivanovv@example.com', 0, '5dd7cd1f71a3d', '2019-11-22 14:57:19', '2019-11-22 14:57:54'),
+(22, 'andreev@example.com', 1, '5dd7d1354966c', '2019-11-22 15:14:45', '2019-11-22 15:14:55');
 
 -- --------------------------------------------------------
 
@@ -166,9 +168,9 @@ CREATE TABLE `users` (
   `email_id` int(11) NOT NULL,
   `password` varchar(255) NOT NULL,
   `about_self` text,
-  `is_subscribe` tinyint(4) NOT NULL DEFAULT '0',
-  `updated_at` date DEFAULT NULL,
-  `created_at` date DEFAULT NULL
+  `is_subscribe` tinyint(1) NOT NULL DEFAULT '0',
+  `updated_at` datetime DEFAULT NULL,
+  `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
@@ -176,7 +178,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `avatar`, `name`, `email_id`, `password`, `about_self`, `is_subscribe`, `updated_at`, `created_at`) VALUES
-(7, '5dd3c76d443f7.png', 'Петров П', 20, '$2y$10$ih5DAPb8I2unIRRG0nHEYuQZCHvWWgnZRmfhIw0QeQbLFws7Buiz6', '', 0, '2019-11-19', '2019-11-12');
+(7, '5dd3c76d443f7.png', 'Петров П', 20, '$2y$10$ih5DAPb8I2unIRRG0nHEYuQZCHvWWgnZRmfhIw0QeQbLFws7Buiz6', '123', 0, '2019-11-22 15:11:01', '2019-11-12 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -265,7 +267,7 @@ ALTER TABLE `user_role`
 -- AUTO_INCREMENT для таблицы `articles`
 --
 ALTER TABLE `articles`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT для таблицы `comments`
@@ -277,7 +279,7 @@ ALTER TABLE `comments`
 -- AUTO_INCREMENT для таблицы `emails`
 --
 ALTER TABLE `emails`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT для таблицы `pages`
@@ -289,7 +291,7 @@ ALTER TABLE `pages`
 -- AUTO_INCREMENT для таблицы `photos`
 --
 ALTER TABLE `photos`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT для таблицы `roles`
@@ -301,7 +303,7 @@ ALTER TABLE `roles`
 -- AUTO_INCREMENT для таблицы `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- Ограничения внешнего ключа сохраненных таблиц

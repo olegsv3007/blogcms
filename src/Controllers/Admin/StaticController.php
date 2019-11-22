@@ -31,12 +31,12 @@ class StaticController
 
     public static function addPage()
     {
-        $validateInfo = self::validatePageForm();
-
         $page['filename'] = $_POST['filename'];
         $page['url'] = $_POST['url'];
         $page['name'] = $_POST['name'];
         $page['html'] = str_replace("/r/n", "<br>", $_POST['content']);
+
+        $validateInfo = self::validatePageForm($page);
 
         if (isset($validateInfo['errors'])) {
             return self::add($page, $validateInfo);
@@ -65,13 +65,13 @@ class StaticController
         $page->save();
     }
 
-    private static function validatePageForm()
+    private static function validatePageForm($page)
     {
         $validator = new \App\Helpers\Validator;
 
-        $validator->requiredValidate('filename', $_POST['filename']);
-        $validator->requiredValidate('url', $_POST['url']);
-        $validator->requiredValidate('name', $_POST['name']);
+        $validator->requiredValidate('filename', $page['filename']);
+        $validator->requiredValidate('url', $page['url']);
+        $validator->requiredValidate('name', $page['name']);
 
         return $validator->getResultValidate();
     }

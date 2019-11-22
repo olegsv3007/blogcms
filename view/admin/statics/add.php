@@ -9,29 +9,29 @@ require_once VIEW_DIR . '/layout/admin_header.php';
             <div class="d-flex flex-column col-12">
                 <div class="form-group mt-5">
                     <label for="filename">Имя файла:</label>
-                    <input type="text" class="form-control <?=isset($this->data['validation_info']) ? (isset($this->data['validation_info']['errors']['filename']) ? "is-invalid" : "is-valid") : "" ?>" name="filename" id="filename" value="<?=$this->data['page']['filename'] ?? ''?>">
-                    <? if (isset($this->data['validation_info']['errors']['filename'])):?>
-                    <div class="invalid-feedback"><?=$this->data['validation_info']['errors']['filename']?></div>
-                    <?endif;?>
+                    <input type="text" class="form-control <?= isset($this->data['validation_info']) ? (isset($this->data['validation_info']['errors']['filename']) ? "is-invalid" : "is-valid") : "" ?>" name="filename" id="filename" value="<?= $this->data['page']['filename'] ?? '' ?>">
+                    <?php if (isset($this->data['validation_info']['errors']['filename'])): ?>
+                    <div class="invalid-feedback"><?= $this->data['validation_info']['errors']['filename'] ?></div>
+                    <?php endif; ?>
                 </div>
                 <div class="form-group mt-5">
                     <label for="url">Имя в маршруте</label>
-                    <input type="text" class="form-control <?=isset($this->data['validation_info']) ? (isset($this->data['validation_info']['errors']['url']) ? "is-invalid" : "is-valid") : "" ?>" name="url" id="url" value="<?=$this->data['page']['url'] ?? ''?>">
-                    <? if (isset($this->data['validation_info']['errors']['url'])):?>
-                    <div class="invalid-feedback"><?=$this->data['validation_info']['errors']['url']?></div>
-                    <?endif;?>
+                    <input type="text" class="form-control <?= isset($this->data['validation_info']) ? (isset($this->data['validation_info']['errors']['url']) ? "is-invalid" : "is-valid") : "" ?>" name="url" id="url" value="<?= $this->data['page']['url'] ?? '' ?>">
+                    <?php if (isset($this->data['validation_info']['errors']['url'])): ?>
+                    <div class="invalid-feedback"><?= $this->data['validation_info']['errors']['url'] ?></div>
+                    <?php endif; ?>
                 </div>
                 <div class="form-group mt-5">
                     <label for="name">Название страницы:</label>
-                    <input type="text" class="form-control <?=isset($this->data['validation_info']) ? (isset($this->data['validation_info']['errors']['name']) ? "is-invalid" : "is-valid") : "" ?>" name="name" id="name" value="<?=$this->data['page']['name'] ?? ''?>">
-                    <? if (isset($this->data['validation_info']['errors']['name'])):?>
-                    <div class="invalid-feedback"><?=$this->data['validation_info']['errors']['name']?></div>
-                    <?endif;?>
+                    <input type="text" class="form-control <?= isset($this->data['validation_info']) ? (isset($this->data['validation_info']['errors']['name']) ? "is-invalid" : "is-valid") : "" ?>" name="name" id="name" value="<?= $this->data['page']['name'] ?? '' ?>">
+                    <?php if (isset($this->data['validation_info']['errors']['name'])): ?>
+                    <div class="invalid-feedback"><?= $this->data['validation_info']['errors']['name'] ?></div>
+                    <?php endif; ?>
                 </div>
                 <div class="form-group my-5">
                     <label for="content">Код страницы</label>
-                    <textarea name="content" id="content" rows="5" class="form-control"><?=$this->data['page']['html'] ?? "<?php require_once VIEW_DIR . '/layout/header.php';?>
-<?php require_once VIEW_DIR . '/layout/footer.php';?>"?>
+                    <textarea name="content" id="content" rows="5" class="form-control"><?= $this->data['page']['html'] ?? "<?php require_once VIEW_DIR . '/layout/header.php'; ?>
+<?php require_once VIEW_DIR . '/layout/footer.php'; ?>" ?>
                     </textarea>
                 </div>
                 <button type="submit" class="btn btn-primary my-5">Создать страницу</button>

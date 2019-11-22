@@ -6,11 +6,11 @@ require_once VIEW_DIR . '/layout/admin_header.php';
     <a href="/admin/articles/add" class="btn btn-primary my-3 float-left">Добавить статью</a>
     <form id="qty_items_per_page_form" action="/admin/articles/" method="post">
         <select id="qty_items" name="qty_items" class="form-control float-right w-25 my-3">
-            <option <?=$this->data['paginator']->itemsPerPage == 1 ? 'selected' : ''?>>1</option>
-            <option <?=$this->data['paginator']->itemsPerPage == 20 ? 'selected' : ''?>>20</option>
-            <option <?=$this->data['paginator']->itemsPerPage == 50 ? 'selected' : ''?>>50</option>
-            <option <?=$this->data['paginator']->itemsPerPage == 200 ? 'selected' : ''?>>200</option>
-            <option <?=$_SESSION['qty_items'] == "Все" ? 'selected' : ''?>>Все</option>
+            <option <?= $this->data['paginator']->itemsPerPage == 1 ? 'selected' : '' ?>>1</option>
+            <option <?= $this->data['paginator']->itemsPerPage == 20 ? 'selected' : '' ?>>20</option>
+            <option <?= $this->data['paginator']->itemsPerPage == 50 ? 'selected' : '' ?>>50</option>
+            <option <?= $this->data['paginator']->itemsPerPage == 200 ? 'selected' : '' ?>>200</option>
+            <option <?= $_SESSION['qty_items'] == "Все" ? 'selected' : '' ?>>Все</option>
         </select>
         <label for="qty-items" class="d-block float-right my-4 mx-2">Элементов на странице:</label>
     </form>
@@ -25,9 +25,9 @@ require_once VIEW_DIR . '/layout/admin_header.php';
             </tr>
         </thead>
         <tbody>
-            <?foreach ($this->data['articles'] as $article) {
+            <?php foreach ($this->data['articles'] as $article) {
                 require TEMPLATES_DIR . 'article_row.php';
-            }?>
+            } ?>
         </tbody>
     </table>
     <?php 

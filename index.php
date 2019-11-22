@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors',true);
 session_start();
-require_once 'bootstrap.php';
+require_once $_SERVER["DOCUMENT_ROOT"] . '/bootstrap.php';
 
 $router = new \App\Router();
 

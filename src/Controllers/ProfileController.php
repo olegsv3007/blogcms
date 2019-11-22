@@ -13,57 +13,65 @@ class ProfileController
 
     public static function updateProfile()
     {
-        $validationInfo = self::validateProfileForm();
+        $user['id'] = $_POST['user_id'];
+        $user['name'] = $_POST['name'];
+        $user['email'] = $_POST['email'];
+        $user['is_subscribe'] = isset($_POST['subscribe']) ? 1 : 0;
+        $user['avatar'] = $_FILES['avatar'];
+        $user['about_self'] = $_POST['about-self'];
+
+        $validationInfo = self::validateProfileForm($user);
+
         if (isset($validationInfo['errors'])) {
             return self::index($validationInfo);
         }
 
-        self::updateProfileDb();
+        self::updateProfileDb($user);
 
         return self::index();
     }
 
-    private static function updateProfileDb()
+    private static function updateProfileDb($userData)
     {
-        $user = \App\Model\User::find($_POST['user_id']);
+        $user = \App\Model\User::find($userData['id']);
 
-        if ($_FILES['avatar']['name']) {
+        if ($userData['avatar']['name']) {
             if (file_exists(APP_DIR . AVATARS_DIR . $user->avatar)) {
                 unlink(APP_DIR . AVATARS_DIR . $user->avatar);
             }
-            $explodeName = explode('.', $_FILES['avatar']['name']);
+            $explodeName = explode('.', $userData['avatar']['name']);
             $fileName = uniqid() . "." . end($explodeName);
-            move_uploaded_file($_FILES['avatar']['tmp_name'], APP_DIR . AVATARS_DIR . $fileName);
+            move_uploaded_file($userData['avatar']['tmp_name'], APP_DIR . AVATARS_DIR . $fileName);
             $user->avatar = $fileName;
         }
 
         $email = $user->email;
-        $email->email = $_POST['email'];
-        $email->is_subscribe = isset($_POST['subscribe']) ? 1 : 0;
+        $email->email = $userData['email'];
+        $email->is_subscribe = $userData['is_subscribe'];
         $email->save();
 
-        $user->name = $_POST['name'];
-        $user->about_self = $_POST['about-self'];
+        $user->name = $userData['name'];
+        $user->about_self = $userData['about_self'];
 
         if ($user->save()) {
-            $_SESSION['email'] = $_POST['email'];
+            $_SESSION['email'] = $userData['email'];
         }
     }
 
-    private static function validateProfileForm()
+    private static function validateProfileForm($user)
     {
         $formValidator = new \App\Helpers\Validator;
 
-        $formValidator->minLengthValidate('name', $_POST['name'], 5);
-        $formValidator->requiredValidate('name', $_POST['name']);
+        $formValidator->minLengthValidate('name', $user['name'], 5);
+        $formValidator->requiredValidate('name', $user['name']);
 
-        $formValidator->emailExistValidate('email', $_POST['email'], $_POST['id']);
-        $formValidator->pregValidate('email', $_POST['email'], '/@/');
-        $formValidator->requiredValidate('email', $_POST['email']);
+        $formValidator->emailExistValidate('email', $user['email'], $user['id']);
+        $formValidator->pregValidate('email', $user['email'], '/@/');
+        $formValidator->requiredValidate('email', $user['email']);
 
-        if ($_FILES['avatar']['name']) {
+        if ($user['avatar']['name']) {
             $mimeTypes = ["image/jpeg", "image/png"];
-            $formValidator->validateFile("avatar", $_FILES['avatar'], $mimeTypes);
+            $formValidator->validateFile("avatar", $user['avatar'], $mimeTypes);
         }
 
         return $formValidator->getResultValidate();

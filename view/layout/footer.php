@@ -8,5 +8,5 @@
     </div>
 </footer>
 <?php
-require_once 'base/footer.php';
+require_once VIEW_DIR . '/layout/base/footer.php';
 ?>

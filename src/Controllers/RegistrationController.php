@@ -18,8 +18,11 @@ class RegistrationController
         $user['name'] = $_POST['name'];
         $user['email'] = $_POST['email'];
         $user['password'] = $_POST['password'];
+        $user['confirm-password'] = $_POST['confirm-password'];
+        $user['agree'] = $_POST['agree'] ?? null;
 
-        $validationInfo = self::validateRegistrationForm();
+        $validationInfo = self::validateRegistrationForm($user);
+        
         if (isset($validationInfo['errors'])) {
             return self::index($user, $validationInfo);
         }
@@ -27,28 +30,28 @@ class RegistrationController
 
         SessionManager::sessionStart($user['email']);
         
-        return \App\Controllers\HomeController::index();
+        return HomeController::index();
     }
 
-    private static function validateRegistrationForm()
+    private static function validateRegistrationForm($user)
     {
         $formValidator = new \App\Helpers\Validator;
 
-        $formValidator->minLengthValidate('name', $_POST['name'], 5);
-        $formValidator->requiredValidate('name', $_POST['name']);
+        $formValidator->minLengthValidate('name', $user['name'], 5);
+        $formValidator->requiredValidate('name', $user['name']);
 
-        $formValidator->emailExistValidate('email', $_POST['email']);
-        $formValidator->pregValidate('email', $_POST['email'], '/@/');
-        $formValidator->requiredValidate('email', $_POST['email']);
+        $formValidator->emailExistValidate('email', $user['email']);
+        $formValidator->pregValidate('email', $user['email'], '/@/');
+        $formValidator->requiredValidate('email', $user['email']);
 
-        $formValidator->minLengthValidate('password', $_POST['password'], 6);
-        $formValidator->maxLengthValidate('password', $_POST['password'], 12);
-        $formValidator->requiredValidate('password', $_POST['password']);
+        $formValidator->minLengthValidate('password', $user['password'], 6);
+        $formValidator->maxLengthValidate('password', $user['password'], 12);
+        $formValidator->requiredValidate('password', $user['password']);
 
-        $formValidator->confirmPasswordValidate('confirm-password', $_POST['password'], $_POST['confirm-password']);
-        $formValidator->requiredValidate('confirm-password', $_POST['confirm-password']);
+        $formValidator->confirmPasswordValidate('confirm-password', $user['password'], $user['confirm-password']);
+        $formValidator->requiredValidate('confirm-password', $user['confirm-password']);
 
-        $formValidator->requiredCheckValidate('agree', $_POST['agree'] ?? null);
+        $formValidator->requiredCheckValidate('agree', $user['agree']);
 
         return $formValidator->getResultValidate();
     }
