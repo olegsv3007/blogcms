@@ -28,7 +28,7 @@ class ProfileController
 
         self::updateProfileDb($user);
 
-        return self::index();
+        return header("Location: /profile");
     }
 
     private static function updateProfileDb($userData)

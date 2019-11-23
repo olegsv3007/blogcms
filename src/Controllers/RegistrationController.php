@@ -30,7 +30,7 @@ class RegistrationController
 
         SessionManager::sessionStart($user['email']);
         
-        return HomeController::index();
+        return header("Location: /");
     }
 
     private static function validateRegistrationForm($user)

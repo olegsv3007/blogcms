@@ -43,7 +43,7 @@ class StaticController
         }
         self::createPage($page);
         self::savePageToDb($page);
-        return self::index();
+        return header("Location: /admin/pages/");
     }
 
     private static function createPage($page)
@@ -99,7 +99,7 @@ class StaticController
 
         file_put_contents(PAGES_DIR . $page['filename'] . ".php", $_POST['content'], LOCK_EX);
         self::savePageToDb($page);
-        return self::index();
+        return header("Location: /admin/pages/");
     }
 
     public static function removePage()
@@ -111,6 +111,6 @@ class StaticController
         if (file_exists(PAGES_DIR . $page->filename . ".php")) {
             unlink(PAGES_DIR . $page->filename . ".php");
         }
-        return self::index();
+        return header("Location: /admin/pages/");
     }
 }

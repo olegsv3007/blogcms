@@ -33,7 +33,7 @@ class CommentController
         $comment->is_published = $comment->is_published ? 0 : 1;
         $comment->save();
 
-        return self::index();
+        return header("Location: /admin/comments/");
     }
 
     public static function delete()
@@ -42,6 +42,6 @@ class CommentController
         $comment = \App\Model\Comment::find($commentId);
         $comment->delete();
 
-        return self::index();
+        return header("Location: /admin/comments/");
     }
 }

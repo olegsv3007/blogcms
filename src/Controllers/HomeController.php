@@ -19,7 +19,7 @@ class HomeController
         if (!$data['article'] = \App\Model\Article::find($articleId)) {
             return new \App\View('404');
         }
-        $data['photos'] = \App\Model\Photo::where('article_id', $data['article']->id)->get();
+        
         return new \App\View('detail', $data);
     }
 
@@ -36,7 +36,8 @@ class HomeController
             }
             
             $comment->save();
-            return self::news($_POST['article_id']);
+
+            return header("Location: /news/" . $_POST['article_id']);
         }
     }
 
@@ -52,7 +53,8 @@ class HomeController
         }
         $email->is_subscribe = 1;
         $email->save();
-        return self::index();
+
+        return header("Location: /");
     }
 
     public static function unsub($unsub_id)
@@ -62,6 +64,7 @@ class HomeController
             $email->is_subscribe = 0;
             $email->save();
         }
-        return self::index();
+
+        return header("Location: /");
     }
 }

@@ -34,10 +34,8 @@ class ArticleController
         $article['header'] = $_POST['header'];
         $article['content'] = $_POST['content'];
         $article['image'] = $_FILES['image'];
-        $article['photos'] = getArrFiles($_FILES['photos']);
 
         $validateInfo = self::validateArticleForm($article);
-
 
         if (isset($validateInfo['errors'])) {
             return self::add($article, $validateInfo);
@@ -49,7 +47,7 @@ class ArticleController
             sendEmail($email->email, $article->header, substr($article->content, 0, 250), $_SERVER['HTTP_HOST'] . "/news/" . $article->id, $_SERVER['HTTP_HOST'] . "/unsub/" . $email->unsub_id);
         }
 
-        return self::index();
+        return header("Location: /admin/articles/");
     }
 
     public static function saveArticle($arrArticle)
@@ -70,14 +68,6 @@ class ArticleController
 
         $article->save();
 
-        foreach ($arrArticle['photos'] as $photo) {
-            if ($image = saveFile($photo, APP_DIR . ARTICLE_PHOTOS)) {
-                $photo = new \App\Model\Photo;
-                $photo->name = $image;
-                $photo->article_id = $article->id;
-                $photo->save();
-            }
-        }
         return $article;
     }
 
@@ -94,7 +84,6 @@ class ArticleController
         $article['header'] = $_POST['header'];
         $article['content'] = $_POST['content'];
         $article['image'] = $_FILES['image'];
-        $article['photos'] = getArrFiles($_FILES['photos']);
 
         $validationInfo = self::validateArticleForm($article);
 
@@ -103,7 +92,7 @@ class ArticleController
         }
 
         self::saveArticle($article);
-        return self::index();
+        return header("Location: /admin/articles/");
     }
 
     public static function removeArticle()
@@ -112,7 +101,7 @@ class ArticleController
             $article->delete();
         }
 
-        return self::index();
+        return header("Location: /admin/articles/");
     }
 
     private static function validateArticleForm($article)
@@ -126,14 +115,6 @@ class ArticleController
 
         if (!$article['image']['error']) {
             $formValidator->validateFile("image", $article['image'], $mimeTypes);
-        }
-
-        $photos = $article['photos'];
-
-        foreach ($photos as $photo) {
-            if (!$photo['error']) {
-                $formValidator->validateFile("photos", $photo, $mimeTypes);
-            }
         }
 
         return $formValidator->getResultValidate();

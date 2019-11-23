@@ -11,14 +11,6 @@ require_once VIEW_DIR . '/layout/header.php';
     <div class="col-12 m-3 text-justify">
        <p><?= str_replace(array("\r\n", "\r", "\n"), '</p><p>', $this->data['article']->content) ?></p>
     </div>
-
-        
-        <?php foreach ($this->data['photos'] as $photo): ?>
-            ​<picture>
-                <img src="<?= ARTICLE_IMAGE_DIR . $photo->name ?>" class="img-fluid img-thumbnail" alt="...">
-            </picture>
-        <?php endforeach; ?>
-
     <div class="clearfix"></div>
     <hr>
     <h3 class="">Комментарии</h1>

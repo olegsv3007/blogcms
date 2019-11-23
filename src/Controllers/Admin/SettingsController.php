@@ -16,6 +16,6 @@ class SettingsController
         $settings->set('articles_per_page', $_POST['articles_per_page']);
         $settings->set('short_text', $_POST['short_text']);
 
-        return self::index();
+        return header("Location: /admin/settings/");
     }
 }

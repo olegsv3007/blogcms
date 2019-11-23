@@ -27,13 +27,13 @@ class AuthorizationController
 
         self::authorize($user['email']);
         
-        return HomeController::index();
+        return header("Location: /");
     }
 
     public static function logout()
     {
         Sessionmanager::sessionDestroy();
-        return HomeController::index();
+        return header("Location: /");
     }
 
     private static function validateAuthorizationForm($user)

@@ -30,6 +30,6 @@ class SubscriptionController
                 $email->save();
             }
         }
-        return self::index();
+        return header("Location: /admin/subscriptions/");
     }
 }

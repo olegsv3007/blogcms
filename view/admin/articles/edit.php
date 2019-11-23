@@ -15,13 +15,6 @@ require_once VIEW_DIR . '/layout/admin_header.php';
                     <div class="invalid-feedback"><?= $this->data['validation_info']['errors']['image'] ?></div>
                     <?php endif; ?>
                 </div>
-                <div class="form-group">
-                    <label for="photos">Фотографии</label>
-                    <input type="file" class="form-control-file <?= isset($this->data['validation_info']) ? (isset($this->data['validation_info']['errors']['photos']) ? "is-invalid" : "is-valid") : "" ?>" id="photos" name="photos[]" multiple>
-                    <?php if (isset($this->data['validation_info']['errors']['photos'])): ?>
-                    <div class="invalid-feedback"><?= $this->data['validation_info']['errors']['photos'] ?></div>
-                    <?php endif; ?>
-                </div>
                 <div class="form-group mt-5">
                     <label for="header">Заголовок:</label>
                     <input type="text" class="form-control <?= isset($this->data['validation_info']) ? (isset($this->data['validation_info']['errors']['header']) ? "is-invalid" : "is-valid") : "" ?>" name="header" id="" value="<?= $this->data['article']['header'] ?>">

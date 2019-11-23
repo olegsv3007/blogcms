@@ -44,7 +44,7 @@ class UserController
         }
 
         self::createUser($user);
-        return self::index();
+        return header("Location: /admin/users/");
     }
 
     private static function createUser($userData)
@@ -148,7 +148,7 @@ class UserController
         }
 
         self::updateUser($user);
-        return self::index();
+        return header("Location: /admin/users/");
     }
 
 
@@ -190,6 +190,6 @@ class UserController
             $user->delete();
         }
 
-        return self::index();
+        return header("Location: /admin/users/");
     }
 }

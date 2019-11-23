@@ -35,20 +35,6 @@ function userHasRole($needleRoles)
     return false;
 }
 
-function getArrFiles($filesIn)
-{
-    $files = [];
-    for ($i = 0; $i < count($filesIn['name']); $i++) {
-        $file['name'] = $filesIn['name'][$i];
-        $file['tmp_name'] = $filesIn['tmp_name'][$i];
-        $file['size'] = $filesIn['size'][$i];
-        $file['type'] = $filesIn['type'][$i];
-        $file['error'] = $filesIn['error'][$i];
-        $files[] = $file;
-    }
-    return $files;
-}
-
 function saveFile($file, $dir) {
     if (!$file['error']) {
         $explodeName = explode('.', $file['name']);
